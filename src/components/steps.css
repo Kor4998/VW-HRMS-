@@ -1,0 +1,13 @@
+.dash .st { margin: 0; padding: 0; list-style: none; }
+.dash .st li { position: relative; display: flex; gap: 12px; padding-bottom: 20px; }
+.dash .st li:last-child { padding-bottom: 0; }
+.dash .st-ic { position: relative; z-index: 1; width: 24px; height: 24px; flex: none; display: grid; place-items: center; border-radius: 50%; }
+.dash .st-line { position: absolute; left: 11px; top: 28px; bottom: 4px; width: 2px; background: var(--line-strong); }
+.dash .st-done .st-ic { background: var(--orange-solid); color: #fff; } .dash .st-done .st-line { background: var(--orange-solid); }
+.dash .st-current .st-ic { border: 2px solid var(--orange-solid); background: var(--orange-bg); } .dash .st-current .st-ic i { width: 8px; height: 8px; border-radius: 50%; background: var(--orange-solid); }
+.dash .st-todo .st-ic { border: 2px solid var(--line-strong); background: var(--tile); } .dash .st-todo .st-ic i { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+.dash .st-line { background-image: none; } .dash .st-todo .st-line, .dash .st-current .st-line { background: repeating-linear-gradient(to bottom, var(--line-strong) 0 3px, transparent 3px 6px); width: 2px; }
+.dash .st li > div { display: flex; flex-direction: column; padding-top: 1px; }
+.dash .st b { font-size: 14px; line-height: 20px; font-weight: 600; color: var(--ink); } .dash .st small { font-size: 14px; line-height: 20px; color: var(--muted); }
+.dash .st-current b, .dash .st-current small { color: var(--orange-fg); }
+.dash .st-todo b { color: var(--ink-2); }

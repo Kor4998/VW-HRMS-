@@ -1,0 +1,35 @@
+/* Untitled UI look on top of the shadcn avatar: 0.5px inset ring, tinted portrait fallback, 1.5px group ring. */
+.uav { flex: none; vertical-align: middle; }
+.uav::after { border-color: rgb(0 0 0 / 0.15) !important; mix-blend-mode: normal !important; }
+.dash.dark .uav::after { border-color: rgb(255 255 255 / 0.18) !important; }
+.uav .uav-fb { background-clip: padding-box; align-items: center !important; overflow: hidden; font-weight: 600; line-height: 1; letter-spacing: 0; }
+.uav-dot { position: absolute !important; right: 0 !important; bottom: 0 !important; z-index: 2; display: block !important; margin: 0 !important; border: 0 !important; border-radius: 50% !important; background: #98A2B3 !important; box-shadow: 0 0 0 1.5px var(--panel, #fff); }
+.uav-dot.on { background: #17B26A !important; }
+.uag { display: inline-flex; align-items: center; }
+.uag > * + * { margin-left: -8px; }
+.uag > [data-slot='avatar'] { box-shadow: 0 0 0 1.5px var(--panel, #fff); }
+.uag-more { box-shadow: 0 0 0 1.5px var(--panel, #fff); background: var(--tile, #F5F5F5) !important; color: var(--muted, #717680) !important; font-weight: 600; flex: none; }
+.uav, .uav * { box-sizing: border-box; }
+/* keep avatars round even inside list rows that style every child span/i */
+.uav { display: flex !important; flex-direction: row !important; }
+.uav-fb { display: flex !important; flex-direction: row !important; width: 100% !important; height: 100% !important; justify-content: center !important; padding: 0 !important; }
+.uag-more { display: flex !important; align-items: center; justify-content: center; }
+.dash.dark .uav .uav-fb { filter: none; }
+
+.uag.grayscale .uav { filter: grayscale(1); } .uag.grayscale .uav .uav-fb { filter: none; }
+.uag-add { cursor: pointer; border: 0; } .uag-add:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--panel, #fff), 0 0 0 4px #4D88FF; }
+.uav [data-slot='avatar-image'] { object-fit: cover; }
+
+/* shadcn avatar group look: big, tight overlap, white ring, grayscale until hovered/selected */
+.uag { padding-left: 0; } .uag > * + * { margin-left: -10px; }
+.uag > [data-slot='avatar'], .uag > .uag-more, .uag > button { box-shadow: 0 0 0 2px var(--panel, #fff); border-radius: 50%; }
+.uag-more { font-size: 14px !important; }
+.uag.grayscale .uav { filter: grayscale(1); transition: filter 0.15s; } 
+.pb-people { display: inline-flex; } .pb-people button { padding: 0; border: 0; background: none; border-radius: 50%; cursor: pointer; position: relative; }
+.pb-people button.on { z-index: 4; box-shadow: 0 0 0 2px var(--panel, #fff), 0 0 0 4px var(--orange-solid, #F97316); } .pb-people button.on .uav { filter: none; }
+.pb-people button:focus-visible { outline: none; z-index: 5; box-shadow: 0 0 0 2px var(--panel, #fff), 0 0 0 4px #4D88FF; }
+.dash .pb-people button { padding: 0; } .dash .pb-people button.on { border-color: transparent; }
+.pb-people button.on { box-shadow: 0 0 0 2px var(--orange-solid, #F97316); } .pb-people button .uav { box-shadow: none; }
+
+.uag > * + * { margin-left: -8px; } .uag-more { font-size: 11px !important; }
+.uag .uav { filter: none !important; }

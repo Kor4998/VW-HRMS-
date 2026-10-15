@@ -1,0 +1,802 @@
+import { Fragment, useEffect, useRef, useState } from 'react'
+import {
+  ArrowLeftRight, ArrowRight, ArrowUp, CalendarCheck, CalendarOff, CalendarPlus, Coffee, Info, List, LogIn, Target, Timer, TriangleAlert, UserCheck, Heart, MessageCircle, Bell, BookOpen, Boxes, Briefcase, CalendarClock, CalendarDays, CalendarX2, Check,
+  CheckCheck, ChartColumn, ChevronDown, ChevronLeft, CircleHelp, CircleUserRound, ClipboardCheck, Clock, Download,
+  Ellipsis, ExternalLink, X, FileText, Fingerprint, Gift, GraduationCap, Hand, History, House, IdCard, LayoutGrid,
+  LogOut, MapPin, Maximize2, Megaphone, Moon, Package, Pencil, Plane, Plus, RefreshCw, Search, Settings,
+  SlidersHorizontal, Sun, Ticket, User, UserPlus, Users, Wallet, Zap,
+} from 'lucide-react'
+import logo from '../assets/logo-light.png'
+import logoDark from '../assets/logo-dark.png'
+import markLight from '../assets/logo-mark-light.png'
+import markDark from '../assets/logo-mark-dark.png'
+import DashboardBreadcrumb from '@/components/DashboardBreadcrumb'
+import SettingsPage from '@/components/SettingsPage'
+import '@/components/accent.css'
+import './Dashboard.css'
+
+const ICON_MAP = {
+  home: House, user: User, users: Users, shift: CalendarClock, clock: Clock, calendar: CalendarDays, wallet: Wallet,
+  chart: ChartColumn, cap: GraduationCap, box: Package, doc: FileText, report: FileText, settings: Settings,
+  search: Search, bell: Bell, down: ChevronDown, left: ChevronLeft, arrow: ArrowRight, logout: LogOut, pin: MapPin,
+  check: Check, plane: Plane, bolt: Zap, megaphone: Megaphone, gift: Gift, dots: Ellipsis, plus: Plus,
+  finger: Fingerprint, circleuser: CircleUserRound, idcard: IdCard, briefcase: Briefcase, swap: ArrowLeftRight,
+  ticket: Ticket, userplus: UserPlus, boxes: Boxes, calx: CalendarX2, book: BookOpen, pointer: Hand,
+  signin: LogIn, timer: Timer, coffee: Coffee, caloff: CalendarOff, calplus: CalendarPlus, calcheck: CalendarCheck, usercheck: UserCheck,
+  alert: TriangleAlert, info: Info, target: Target, list: List, heart: Heart, comment: MessageCircle, clipcheck: ClipboardCheck, grid: LayoutGrid, expand: Maximize2, edit: Pencil, refresh: RefreshCw,
+}
+
+function Icon({ name, size = 16, className }) {
+  const Glyph = ICON_MAP[name]
+  if (!Glyph) return null
+  return <Glyph size={size} strokeWidth={1.75} className={className} aria-hidden="true" />
+}
+
+const NOTIF_TABS = [
+  ['unread', 'Unread'],
+  ['read', 'Read'],
+  ['important', 'Important'],
+]
+
+const NOTIFS = [
+  { id: 1, type: 'announce', who: 'Kalyani Devarapalli', ini: 'KD', verb: 'posted in', chip: ['Announcements', Megaphone], time: 'Today 9:12 AM', ago: '2 hours ago', unread: true, important: true,
+    bubble: 'Please upload your asset details in the HRMS Asset Manager at the earliest.' },
+  { id: 2, type: 'request', who: 'Mohan Pillai', ini: 'MP', verb: 'requested a', chip: ['Shift Swap · 8 Oct', ArrowLeftRight], time: 'Today 8:40 AM', ago: '3 hours ago', unread: true, important: true, actions: true },
+  { id: 3, type: 'birthday', who: 'Vishwanath Thepakulo', ini: 'VT', verb: 'has a birthday on', chip: ['Oct 24', Gift], time: 'Today 8:00 AM', ago: '4 hours ago', unread: true },
+  { id: 4, type: 'request', who: 'Anita Rao', ini: 'AR', verb: 'approved your', chip: ['Leave · 21 Sep', CalendarDays], time: 'Yesterday 5:30 PM', ago: 'Yesterday', unread: false, important: true },
+  { id: 5, type: 'announce', who: 'HR Team', ini: 'HR', verb: 'shared a file in', chip: ['Policies', BookOpen], time: 'Yesterday 2:10 PM', ago: 'Yesterday', unread: false, important: true,
+    file: { name: 'WFH_Policy_2026.pdf', size: '1.2 MB' } },
+  { id: 6, type: 'leave', who: 'Vinod Pasupuleti', ini: 'VP', verb: 'is on', chip: ['Paid Leave · Oct 06 – 07', CalendarX2], time: 'Today · Software Engineer', ago: '3 of 14 away', unread: true },
+  { id: 7, type: 'leave', who: 'Anita Rao', ini: 'AR', verb: 'is on', chip: ['Casual Leave · Oct 07', CalendarX2], time: 'Today · QA Engineer', ago: '12 in office', unread: false },
+  { id: 8, type: 'feed', who: 'Kalyani Devarapalli', ini: 'KD', verb: 'posted in', chip: ['Community feed', MessageCircle], time: 'Today 8:30 AM', ago: '18 hours ago', unread: true,
+    bubble: 'Happy Birthday, Anil! Wishing you a wonderful year ahead filled with happiness, good health and success.' },
+]
+
+const ACCOUNT_MENU = [
+  [
+    { label: 'View profile', icon: User, key: '⌘K→P', tab: 'profile' },
+    { label: 'Settings', icon: Settings, key: '⌘S', tab: 'profile' },
+    { label: 'Preferences', icon: SlidersHorizontal, key: '⌘⇧P', tab: 'appearance' },
+    { label: 'Notification settings', icon: Bell, tab: 'notifications' },
+  ],
+  [
+    { label: 'Changelog', icon: History },
+    { label: 'Help & support', icon: CircleHelp, external: true },
+  ],
+]
+
+const NAV_ICONS = {
+  grid: LayoutGrid, circleuser: CircleUserRound, user: User, idcard: IdCard, briefcase: Briefcase, doc: FileText,
+  clock: Clock, calendar: CalendarDays, swap: ArrowLeftRight, pointer: Hand, finger: Fingerprint, clipcheck: ClipboardCheck,
+  home: House, boxes: Boxes, userplus: UserPlus, ticket: Ticket, calx: CalendarX2, book: BookOpen,
+}
+
+function NavIcon({ name, size = 18 }) {
+  const C = NAV_ICONS[name]
+  return <C size={size} strokeWidth={1.75} aria-hidden="true" />
+}
+
+const NAV = [
+  { label: 'Dashboard', icon: 'grid', active: true },
+  {
+    label: 'My Profile', icon: 'circleuser',
+    children: [['Personal Information', 'user'], ['Basic Information', 'idcard'], ['Work Experience', 'briefcase'], ['Employment Contracts', 'doc'], ['Documents', 'doc'], ['Designation Tenure', 'idcard']],
+  },
+  {
+    label: 'Shift Management', icon: 'clock',
+    children: [['My Roster', 'calendar'], ['Shift Swap', 'swap'], ['Shift Approval', 'clock'], ['Shifts Claim', 'pointer']],
+  },
+  {
+    label: 'Attendance', icon: 'finger',
+    children: [['Punch In / Out', 'clock'], ['Work Calendar', 'calendar'], ['Attendance Logs', 'finger'], ['Regularization', 'clipcheck'], ['Request WFH', 'home']],
+  },
+  {
+    label: 'Asset', icon: 'boxes',
+    children: [['Asset Requests', 'userplus'], ['Assets', 'boxes'], ['Asset Transfer', 'swap'], ['Asset Tickets', 'ticket']],
+  },
+  {
+    label: 'Leave Management', icon: 'calx',
+    children: [['Apply Leave', 'calx'], ['Leave Ledger', 'calx'], ['Comp Off Request', 'calendar']],
+  },
+  { label: 'Policies', icon: 'doc', children: [['My Policies', 'book']] },
+]
+
+const HOURS = [
+  { label: 'Regular', icon: 'clock', value: '32h 33m', pct: 78, tone: 'reg', note: '5 working days' },
+  { label: 'Overtime', icon: 'bolt', value: '3h 00m', pct: 7, tone: 'ot', note: 'Approved by manager' },
+  { label: 'Breaks', icon: 'coffee', value: '6h 03m', pct: 15, tone: 'brk', note: 'Avg 1h 13m / day' },
+]
+
+const ATT = [
+  { label: 'Present', value: 4, icon: 'calendar', tone: 'green' },
+  { label: 'Working days', value: 20, icon: 'briefcase', tone: 'blue' },
+  { label: 'WFH', value: 0, icon: 'home', tone: 'teal' },
+  { label: 'On leave', value: 0, icon: 'plane', tone: 'amber' },
+  { label: 'Late marks', value: 0, icon: 'clock', tone: 'rose' },
+  { label: 'Pending', value: 0, icon: 'doc', tone: 'violet' },
+]
+
+const HIST_STATS = [
+  ['22', 'Working days', 'out of 30 days', 'blue'],
+  ['20', 'Present', '91% of working days', 'green'],
+  ['0', 'WFH', 'of 20 present days', 'teal'],
+  ['0', 'Comp Off', 'earned in this period', 'violet'],
+  ['6', 'Week off', 'Saturdays & Sundays', 'grey'],
+  ['1', 'Leave', '3% of total days', 'amber'],
+  ['9h 47m', 'Avg. gross', 'per day with punches', 'blue'],
+  ['1', 'Missing punch', 'day', 'rose'],
+]
+
+const HIST_ICONS = ['briefcase', 'usercheck', 'home', 'timer', 'caloff', 'plane', 'clock', 'alert']
+
+const HIST_LEGEND = [['green', 'Present (Office)'], ['teal', 'Work from home'], ['amber', 'Leave'], ['blue', 'Holiday'], ['grey', 'Week off'], ['rose', 'Missing clock-out']]
+
+const REQUESTS = [
+  { type: 'Paid Leave', from: '21 Sep', to: '21 Sep', days: 1, reason: 'Personal work', status: 'Approved' },
+  { type: 'Paid Leave', from: '06 Aug', to: '07 Aug', days: 2, reason: 'Family function', status: 'Approved' },
+  { type: 'Paid Leave', from: '23 Jun', to: '23 Jun', days: 1, reason: 'Sick leave', status: 'Approved' },
+  { type: 'Comp Off', from: '12 May', to: '12 May', days: 1, reason: 'Extra working hours', status: 'Pending' },
+  { type: 'WFH', from: '18 Apr', to: '18 Apr', days: 1, reason: 'Work from home', status: 'Approved' },
+]
+
+const WEEK = [
+  { d: 'Wed', n: 30, h: 10.38, l: '10h 23m' },
+  { d: 'Thu', n: 1, h: 9.7, l: '9h 42m' },
+  { d: 'Fri', n: 2, h: 0, l: '0h', tag: 'Holiday' },
+  { d: 'Sat', n: 3, h: 0, l: '0h', tag: 'WO' },
+  { d: 'Sun', n: 4, h: 0, l: '0h', tag: 'WO' },
+  { d: 'Mon', n: 5, h: 10.45, l: '10h 27m' },
+  { d: 'Tue', n: 6, h: 5.02, l: '5h 01m' },
+]
+
+const AGENDA = [
+  { t: '10:00 AM', title: 'HR Team Sync', meta: '30 min · Meeting Room A', tone: 'blue', icon: 'users', join: true },
+  { t: '1:30 PM', title: 'Interview – Product Designer', meta: '45 min · Meeting Room B', tone: 'green', icon: 'usercheck' },
+  { t: '4:00 PM', title: 'New Joiner Onboarding', meta: '1 hr · HR Conference Room', tone: 'violet', icon: 'userplus' },
+  { t: '5:00 PM', title: 'Policy Review', meta: '30 min · Online', tone: 'amber', icon: 'doc' },
+]
+
+
+const HOLIDAYS = [
+  { m: 'OCT', d: '20', name: 'Dussehra', day: 'Tuesday', badge: 'Next holiday', next: true },
+  { m: 'NOV', d: '08', name: 'Diwali', day: 'Sunday', badge: 'Public holiday' },
+  { m: 'DEC', d: '25', name: 'Christmas Day', day: 'Friday', badge: 'Public holiday' },
+  { m: 'JAN', d: '01', name: "New Year's Day", day: 'Friday', badge: 'Public holiday' },
+]
+
+
+// Attendance history calendar (7 Sep – 6 Oct 2026)
+function buildHistory() {
+  const cells = []
+  const start = new Date(2026, 8, 7)
+  const end = new Date(2026, 9, 7)
+  const holidays = { '2026-9-14': 'Holiday', '2026-10-2': 'Holiday' }
+  const pad = (n) => String(n).padStart(2, '0')
+  for (let i = 0; i <= Math.round((end - start) / 864e5); i++) {
+    const d = new Date(start.getTime() + i * 864e5)
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+    const dow = d.getDay()
+    const cell = { day: d.getDate(), key, type: 'present' }
+    if (i === 0) {
+      for (let k = 0; k < dow; k++) cells.push({ key: `b${k}`, type: 'blank' })
+    }
+    if (holidays[key]) cell.type = 'holiday'
+    else if (dow === 0 || dow === 6) cell.type = 'off'
+    else if (key === '2026-9-21') cell.type = 'leave'
+    else if (key === '2026-10-7') cell.type = 'missing'
+    else {
+      const inMin = 9 * 60 + 15 + ((d.getDate() * 13) % 45)
+      const gross = 9 * 60 + ((d.getDate() * 37) % 130)
+      const outMin = inMin + gross + 60
+      const hm = (m) => `${pad(Math.floor(m / 60) % 24)}:${pad(m % 60)}`
+      cell.range = `${hm(inMin)}–${hm(outMin)}`
+      cell.hours = `${Math.floor(gross / 60)}h ${pad(gross % 60)}m`
+    }
+    cells.push(cell)
+  }
+  return cells
+}
+const HISTORY = buildHistory()
+const STATUS_LABEL = { present: 'WFO', off: 'Off', holiday: 'Holiday', leave: 'Leave', missing: 'Missing' }
+
+function useClock() {
+  const [now, setNow] = useState(() => new Date())
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(id)
+  }, [])
+  return now
+}
+
+function formatTime(d, h24 = false) {
+  let h = d.getHours()
+  const ap = h >= 12 ? 'PM' : 'AM'
+  if (!h24) h = h % 12 || 12
+  const pad = (n) => String(n).padStart(2, '0')
+  return { main: `${pad(h)}:${pad(d.getMinutes())}`, sec: pad(d.getSeconds()), ap: h24 ? '' : ap }
+}
+
+function Card({ icon, title, action, tools, tone = 'indigo', children, className = '' }) {
+  return (
+    <section className={`card ${className}`}>
+      <div className="card-head">
+        <span className={`head-ic ${tone}`}><Icon name={icon} size={15} /></span>
+        <h3>{title}</h3>
+        <Icon name="info" size={14} className="info-ic" />
+        {tools && (
+          <div className="tool-grp">
+            <button type="button" aria-label="Expand"><Icon name="expand" size={13} /></button>
+            <button type="button" aria-label="Edit"><Icon name="edit" size={13} /></button>
+            <button type="button" aria-label="More"><Icon name="dots" size={13} /></button>
+          </div>
+        )}
+        {action && <a href="#" className="link" onClick={(e) => e.preventDefault()}>{action} <Icon name="arrow" size={13} /></a>}
+      </div>
+      {children}
+    </section>
+  )
+}
+
+export default function Dashboard({ onLogout }) {
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1100px)').matches) return true
+    try { return localStorage.getItem('hrms-sidebar') === 'collapsed' } catch { return false }
+  })
+  const toggleSidebar = () => setCollapsed((c) => {
+    const next = !c
+    try { localStorage.setItem('hrms-sidebar', next ? 'collapsed' : 'open') } catch { /* storage unavailable */ }
+    return next
+  })
+  // collapsed rail: hover / focus shows a label tooltip, or a flyout with the group's pages
+  const [fly, setFly] = useState(null)
+  const flyTimer = useRef(null)
+  // narrow windows fold the sidebar into the icon rail automatically
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1100px)')
+    const onChange = (e) => { if (e.matches) setCollapsed(true) }
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+  const showFly = (e, item) => {
+    if (!collapsed) return
+    clearTimeout(flyTimer.current)
+    const rect = e.currentTarget.getBoundingClientRect()
+    setFly({ item, top: rect.top, left: rect.right + 10 })
+  }
+  const hideFly = () => {
+    clearTimeout(flyTimer.current)
+    flyTimer.current = setTimeout(() => setFly(null), 140)
+  }
+  const [openNav, setOpenNav] = useState({})
+  const [helpOpen, setHelpOpen] = useState(() => {
+    try { return localStorage.getItem('hrms-help') !== 'dismissed' } catch { return true }
+  })
+  const dismissHelp = () => {
+    setHelpOpen(false)
+    try { localStorage.setItem('hrms-help', 'dismissed') } catch { /* storage unavailable */ }
+  }
+  const [settingsTab, setSettingsTab] = useState(null)
+  const [time24, setTime24] = useState(false)
+  const [theme, setThemeState] = useState(() => {
+    try { return localStorage.getItem('hrms-theme') === 'dark' ? 'dark' : 'light' } catch { return 'light' }
+  })
+  // portalled menus (dropdowns) render outside .dash, so mirror the theme on <html>
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+    return () => document.documentElement.classList.remove('dark')
+  }, [theme])
+  const [accent, setAccentState] = useState(() => {
+    try { return localStorage.getItem('hrms-accent') || 'orange' } catch { return 'orange' }
+  })
+  const setAccent = (a) => {
+    setAccentState(a)
+    try { localStorage.setItem('hrms-accent', a) } catch { /* storage unavailable */ }
+  }
+  const setTheme = (t) => {
+    setThemeState(t)
+    try { localStorage.setItem('hrms-theme', t) } catch { /* storage unavailable */ }
+  }
+  const toggleNav = (label) => setOpenNav((o) => ({ ...o, [label]: !o[label] }))
+  const [notifOpen, setNotifOpen] = useState(false)
+  const notifRef = useRef(null)
+  const [profileOpen, setProfileOpen] = useState(false)
+  const [notifs, setNotifs] = useState(NOTIFS)
+  const [ntab, setNtab] = useState('unread')
+  const inTab = (n, t) => (t === 'unread' ? n.unread : t === 'read' ? !n.unread : n.important)
+  const countOf = (t) => notifs.filter((n) => inTab(n, t)).length
+  const unreadCount = countOf('unread')
+  const shown = notifs.filter((n) => inTab(n, ntab))
+  const markAllRead = () => setNotifs((l) => l.map((n) => ({ ...n, unread: false })))
+  const answer = (id, a) => setNotifs((l) => l.map((n) => (n.id === id ? { ...n, answer: a, unread: false } : n)))
+  const profileRef = useRef(null)
+  const [tab, setTab] = useState('All')
+  const now = useClock()
+
+  useEffect(() => {
+    if (!profileOpen) return undefined
+    const onDown = (e) => { if (profileRef.current && !profileRef.current.contains(e.target)) setProfileOpen(false) }
+    const onKey = (e) => { if (e.key === 'Escape') setProfileOpen(false) }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [profileOpen])
+
+  useEffect(() => {
+    if (!notifOpen) return undefined
+    const onDown = (e) => { if (notifRef.current && !notifRef.current.contains(e.target)) setNotifOpen(false) }
+    const onKey = (e) => { if (e.key === 'Escape') setNotifOpen(false) }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [notifOpen])
+  const t = formatTime(now, time24)
+  const TAB_ICON = { All: 'list', Leave: 'calendar', WFH: 'home', Regularization: 'clipcheck', 'Comp Off': 'timer' }
+  const tabs = [['All', 5], ['Leave', 3], ['WFH', 1], ['Regularization', 0], ['Comp Off', 1]]
+  const rows = REQUESTS.filter((r) => tab === 'All' || r.type.includes(tab))
+
+  return (
+    <div className={`dash${collapsed ? ' collapsed' : ''}${theme === 'dark' ? ' dark' : ''}`} data-accent={accent}>
+      {/* ---------- Sidebar ---------- */}
+      <aside className="sidebar">
+        <div className="side-top">
+          <img src={theme === 'dark' ? logoDark : logo} alt="Voltuswave" className="side-logo" />
+          <img src={theme === 'dark' ? markDark : markLight} alt="Voltuswave" className="side-mark" />
+          <button className="round-btn" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!collapsed} onClick={toggleSidebar}>
+            <Icon name="left" size={14} />
+          </button>
+        </div>
+
+        <nav className="side-nav">
+          {NAV.map((m) => m.children ? (
+            <div className="nav-group" key={m.label}>
+              <button
+                type="button"
+                aria-label={m.label}
+                aria-expanded={collapsed ? fly?.item === m : !!openNav[m.label]}
+                className={openNav[m.label] ? 'nav-item has-kids open' : 'nav-item has-kids'}
+                onClick={(e) => (collapsed ? showFly(e, m) : toggleNav(m.label))}
+                onMouseEnter={(e) => showFly(e, m)}
+                onMouseLeave={hideFly}
+                onFocus={(e) => showFly(e, m)}
+                onBlur={hideFly}
+              >
+                <NavIcon name={m.icon} size={18} />
+                <span className="nav-label">{m.label}</span>
+                <Icon name="down" size={14} className="nav-caret" />
+              </button>
+              {openNav[m.label] && (
+                <div className="nav-sub">
+                  {m.children.map(([label, icon]) => (
+                    <a key={label} href="#" title={label} className="nav-sub-item" onClick={(e) => e.preventDefault()}>
+                      <NavIcon name={icon} size={16} />
+                      <span>{label}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <a key={m.label} href="#" aria-label={m.label} onClick={(e) => e.preventDefault()}
+              className={m.active ? 'nav-item active' : 'nav-item'}
+              onMouseEnter={(e) => showFly(e, m)} onMouseLeave={hideFly} onFocus={(e) => showFly(e, m)} onBlur={hideFly}>
+              <NavIcon name={m.icon} size={18} />
+              <span className="nav-label">{m.label}</span>
+            </a>
+          ))}
+        </nav>
+
+        {helpOpen && (
+        <div className="help">
+          <button type="button" className="help-x" aria-label="Dismiss help card" title="Dismiss" onClick={dismissHelp}>
+            <X size={16} strokeWidth={1.75} aria-hidden="true" />
+          </button>
+          <span className="help-ic"><Icon name="bolt" size={16} /></span>
+          <b>Need help?</b>
+          <p>Get quick answers, generate reports, and more.</p>
+          <button type="button">Ask HR Assistant <Icon name="arrow" size={13} /></button>
+        </div>
+        )}
+
+        <div className="side-user">
+          <span className="avatar">VK</span>
+          <div className="su-text">
+            <b>Venkatesh Korlapati</b>
+            <small>Employee</small>
+          </div>
+        </div>
+      </aside>
+
+      {/* ---------- Main ---------- */}
+      <main className="main">
+        <header className="topbar">
+          <label className="search">
+            <Icon name="search" size={16} />
+            <input placeholder="Search employees, leaves, policies, or anything…" />
+            <kbd>⌘ K</kbd>
+          </label>
+          <div className="tools">
+            <span className="portal"><i /> Employee Portal</span>
+            <button className="select" type="button">Voltuswave PVT LTD <Icon name="down" size={14} /></button>
+            <div className="notif" ref={notifRef}>
+              <button
+                className={notifOpen ? 'bell open' : 'bell'}
+                aria-label="Notifications"
+                aria-expanded={notifOpen}
+                onClick={() => { setNotifOpen((o) => !o); setProfileOpen(false) }}
+              >
+                <Icon name="bell" size={18} />{unreadCount > 0 && <i />}
+              </button>
+              {notifOpen && (
+                <div className="popover" role="dialog" aria-label="Notifications">
+                  <div className="np-head">
+                    <h3>Notifications</h3>
+                    <div className="np-tools">
+                      <button type="button" aria-label="Mark all as read" title="Mark all as read" onClick={markAllRead}><CheckCheck size={18} strokeWidth={1.75} /></button>
+                      <button type="button" aria-label="Notification settings" title="Notification settings" onClick={() => { setNotifOpen(false); setSettingsTab('notifications') }}><Settings size={18} strokeWidth={1.75} /></button>
+                    </div>
+                  </div>
+                  <div className="np-tabs" role="tablist">
+                    {NOTIF_TABS.map(([key, label]) => (
+                      <button key={key} type="button" role="tab" aria-selected={ntab === key} className={ntab === key ? 'on' : ''} onClick={() => setNtab(key)}>
+                        {label}
+                        {key !== 'read' && countOf(key) > 0 && <em>{countOf(key)}</em>}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="np-list">
+                    {shown.length === 0 && <div className="np-empty">{ntab === 'unread' ? "You're all caught up." : ntab === 'read' ? 'No read notifications yet.' : 'Nothing marked important.'}</div>}
+                    {shown.map((n) => {
+                      const Chip = n.chip[1]
+                      return (
+                        <article className="np-item" key={n.id} onClick={() => n.unread && !n.actions && setNotifs((l) => l.map((x) => (x.id === n.id ? { ...x, unread: false } : x)))}>
+                          <span className="np-av">{n.ini}<i /></span>
+                          <div className="np-main">
+                            <div className="np-line">
+                              <p><b>{n.who}</b> {n.verb} <span className="np-chip"><Chip size={14} strokeWidth={1.75} aria-hidden="true" />{n.chip[0]}</span></p>
+                              {n.unread && <i className="np-dot" aria-label="Unread" />}
+                            </div>
+                            <div className="np-meta"><span>{n.time}</span>{!n.time.toLowerCase().startsWith(n.ago.toLowerCase()) && <span>{n.ago}</span>}</div>
+                            {n.bubble && <div className="np-bubble">{n.bubble}</div>}
+                            {n.file && (
+                              <div className="np-file">
+                                <span className="np-ficon"><FileText size={22} strokeWidth={1.5} aria-hidden="true" /><em>PDF</em></span>
+                                <div><b>{n.file.name}</b><small>{n.file.size}</small></div>
+                                <button type="button" aria-label="Download"><Download size={16} strokeWidth={1.75} /></button>
+                              </div>
+                            )}
+                            {n.actions && !n.answer && (
+                              <div className="np-actions">
+                                <button type="button" className="np-decline" onClick={() => answer(n.id, 'declined')}>Decline</button>
+                                <button type="button" className="np-accept" onClick={() => answer(n.id, 'accepted')}>Accept</button>
+                              </div>
+                            )}
+                            {n.answer && <div className="np-answer">You {n.answer} this request</div>}
+                          </div>
+                        </article>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="profile" ref={profileRef}>
+              <button
+                type="button"
+                className="avatar avatar-btn"
+                aria-label="Account menu"
+                aria-expanded={profileOpen}
+                onClick={() => { setProfileOpen((o) => !o); setNotifOpen(false) }}
+              >
+                VK
+              </button>
+              {profileOpen && (
+                <div className="menu" role="menu">
+                  <div className="menu-user">
+                    <span className="avatar">VK<i className="avatar-dot" /></span>
+                    <div>
+                      <b>Venkatesh Aravind Korlapati</b>
+                      <small>korlapati.venkatesh@voltuswave.com</small>
+                    </div>
+                  </div>
+                  {ACCOUNT_MENU.map((group, gi) => (
+                    <Fragment key={gi}>
+                    <div className="menu-group">
+                      {group.map(({ label, icon: Ico, key, external, tab }) => (
+                        <a key={label} href="#" role="menuitem" className="menu-item" onClick={(e) => { e.preventDefault(); setProfileOpen(false); if (tab) setSettingsTab(tab) }}>
+                          <Ico size={16} strokeWidth={1.75} aria-hidden="true" />
+                          <span>{label}</span>
+                          {key && <kbd>{key}</kbd>}
+                          {external && <ExternalLink size={14} strokeWidth={1.75} className="menu-ext" aria-hidden="true" />}
+                        </a>
+                      ))}
+                    </div>
+                    {gi === 0 && (
+                      <div className="menu-theme">
+                        <span>Theme</span>
+                        <div className="theme-seg" role="group" aria-label="Theme">
+                          <button type="button" aria-label="Light theme" aria-pressed={theme === 'light'} className={theme === 'light' ? 'on' : ''} onClick={() => setTheme('light')}>
+                            <Sun size={16} strokeWidth={1.75} aria-hidden="true" />
+                          </button>
+                          <button type="button" aria-label="Dark theme" aria-pressed={theme === 'dark'} className={theme === 'dark' ? 'on' : ''} onClick={() => setTheme('dark')}>
+                            <Moon size={16} strokeWidth={1.75} aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    </Fragment>
+                  ))}
+                  <div className="menu-foot">
+                    <button type="button" className="menu-signout" onClick={() => { setProfileOpen(false); onLogout?.() }}>
+                      <LogOut size={16} strokeWidth={1.75} aria-hidden="true" /> Sign out
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
+
+        <div className="scroll">
+          <div className="page">
+            <DashboardBreadcrumb current={settingsTab ? 'Settings' : 'Dashboard'} onHome={() => setSettingsTab(null)} />
+
+            {settingsTab ? (
+              <SettingsPage tab={settingsTab} setTab={setSettingsTab} theme={theme} setTheme={setTheme} accent={accent} setAccent={setAccent} time24={time24} setTime24={setTime24} onBack={() => setSettingsTab(null)} />
+            ) : (
+            <>
+
+            <div className="hello">
+              <div>
+                <div className="date"><Icon name="calendar" size={14} /> Tuesday, 6 October 2026</div>
+                <h1>Good afternoon, Venkatesh.</h1>
+              </div>
+              <div className="quick">
+                <button className="btn" type="button"><Icon name="calplus" size={15} /> Leave</button>
+                <button className="btn" type="button"><Icon name="home" size={15} /> WFH</button>
+                <button className="btn" type="button"><Icon name="clipcheck" size={15} /> Regularize</button>
+                <button className="btn" type="button"><Icon name="timer" size={15} /> Comp Off</button>
+              </div>
+            </div>
+
+            {/* ---------- Hero: Today ---------- */}
+            <section className="hero">
+              <div className="hero-top">
+                <span className="live"><i /> Working · since 09:28 AM</span>
+                <div className="hero-actions">
+                  <span className="loc"><Icon name="pin" size={14} /> Office</span>
+                  <button className="hero-icon" type="button" aria-label="Refresh"><Icon name="refresh" size={15} /></button>
+                  <button className="clock-out" type="button"><Icon name="logout" size={15} /> Clock out</button>
+                </div>
+              </div>
+
+              <div className="hero-mid">
+                <div className="hero-time">{t.main}<span className="sec">:{t.sec}</span>{t.ap && <span className="ap">{t.ap}</span>}</div>
+                <div className="hero-meta">
+                  <div><b>5h 01m</b><span>worked today</span></div>
+                  <div><b>56%</b><span>of shift</span></div>
+                  <div><b>1h 27m</b><span>break</span></div>
+                </div>
+              </div>
+
+              <div className="hero-bar">
+                <i className="s-early" style={{ width: '3.5%' }} />
+                <i className="s-work" style={{ width: '38%' }} />
+                <i className="s-break" style={{ width: '12.5%' }} />
+                <i className="s-work" style={{ width: '5.4%' }} />
+                <i className="s-break" style={{ width: '3.7%' }} />
+                <i className="s-work" style={{ width: '9%' }} />
+                <i className="s-rest" style={{ width: '27.9%' }} />
+              </div>
+              <div className="hero-foot">
+                <span>General Shift · 9:30 AM – 6:30 PM</span>
+                <div className="hero-legend">
+                  <span><i className="s-early" />Early</span>
+                  <span><i className="s-work" />Worked</span>
+                  <span><i className="s-break" />Break</span>
+                  <span><i className="s-rest" />Remaining</span>
+                </div>
+              </div>
+
+              <div className="hero-stats">
+                <div><span><Icon name="signin" size={14} />Check-in</span><b>09:28 AM</b></div>
+                <div><span><Icon name="clock" size={14} />Shift ends</span><b>06:30 PM</b></div>
+                <div><span><Icon name="coffee" size={14} />Break taken</span><b>1h 27m</b></div>
+                <div><span><Icon name="logout" size={14} />Expected out</span><b>06:28 PM</b></div>
+              </div>
+            </section>
+
+            <Card icon="calendar" title="Attendance" tone="green" className="att-card">
+              <span className="att-month">Oct 2026</span>
+              <div className="att">
+                {ATT.map((x) => (
+                  <div className="att-i" key={x.label}>
+                    <span className={`chipic ${x.tone}`}><Icon name={x.icon} size={18} /></span>
+                    <div><b>{x.value}</b><span>{x.label}</span></div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <div className="row r1">
+              <Card icon="doc" title="My leave requests" action="View all" tone="orange">
+                <div className="pills">
+                  {tabs.map(([name, n]) => (
+                    <button key={name} type="button" className={tab === name ? 'pill on' : 'pill'} onClick={() => setTab(name)}>
+                      <Icon name={TAB_ICON[name]} size={14} />{name} <em>{n}</em>
+                    </button>
+                  ))}
+                </div>
+                <div className="table">
+                  <div className="tr th"><span>Type</span><span>From</span><span>To</span><span>Days</span><span>Reason</span><span>Status</span></div>
+                  {rows.map((r, i) => (
+                    <div className="tr" key={i}>
+                      <span className="strong tcell"><Icon name={r.type === 'WFH' ? 'home' : r.type === 'Comp Off' ? 'timer' : 'calendar'} size={15} />{r.type}</span>
+                      <span>{r.from}</span>
+                      <span>{r.to}</span>
+                      <span>{r.days}</span>
+                      <span className="ellipsis">{r.reason}</span>
+                      <span><i className={r.status === 'Approved' ? 'badge ok' : 'badge wait'}><Icon name={r.status === 'Approved' ? 'check' : 'clock'} size={12} />{r.status}</i></span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              <Card icon="calendar" title="Leave balance" tools tone="cyan">
+                <div className="leave">
+                  <div className="donut">
+                    <svg viewBox="0 0 120 120">
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#eef0f4" strokeWidth="10" />
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#4b7bf5" strokeWidth="10" strokeLinecap="round" strokeDasharray="205 314" transform="rotate(-90 60 60)" />
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#fbbf68" strokeWidth="10" strokeLinecap="round" strokeDasharray="34 314" strokeDashoffset="-215" transform="rotate(-90 60 60)" />
+                    </svg>
+                    <em className="chip-pct">26%</em>
+                    <div><span>Available</span><b>5.5<small>days</small></b></div>
+                  </div>
+                  <div className="lb-tiles">
+                    <div className="lb-t paid"><span><Icon name="calcheck" size={14} />Paid Leaves</span><b>4.5 <small>/ 21.5</small></b><small>17 used</small></div>
+                    <div className="lb-t comp"><span><Icon name="timer" size={14} />Compensatory Off</span><b>1 <small>/ 1</small></b><small>0 used</small></div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            <div className="row r3">
+              <Card icon="clock" title="Hours summary" tools tone="orange">
+                <div className="hx">
+                  <div className="hx-ring">
+                    <svg viewBox="0 0 120 120" role="img" aria-label="35h 33m of the 40h weekly target">
+                      <circle cx="60" cy="60" r="50" className="hx-track" />
+                      <circle cx="60" cy="60" r="50" className="hx-arc" strokeDasharray="279.6 314.2" transform="rotate(-90 60 60)" />
+                    </svg>
+                    <div><b>35h 33m</b><span>of 40h target</span></div>
+                  </div>
+                  <ul className="hx-list">
+                    {HOURS.map((h) => (
+                      <li key={h.label} className={h.tone}>
+                        <div className="hx-row"><span><Icon name={h.icon} size={15} />{h.label}</span><b>{h.value}</b></div>
+                        <div className="hx-bar"><i style={{ width: `${h.pct}%` }} /></div>
+                        <small>{h.note}</small>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="hx-foot">
+                  <span className="chip-up"><ArrowUp size={12} strokeWidth={2} aria-hidden="true" /> 12% vs last week</span>
+                  <span className="hx-goal"><Icon name="target" size={14} />89% of target · 4h 27m to go</span>
+                </div>
+              </Card>
+
+              <Card icon="chart" title="Last 7 days" tools>
+                <div className="avg"><b>35h 33m</b><small className="chip-up"><ArrowUp size={12} strokeWidth={2} aria-hidden="true" /> 12% vs last week</small></div>
+                <div className="chart">
+                  <div className="cols">
+                    <div className="avg-line" style={{ bottom: `calc(26px + (100% - 26px) * ${8.883 / 12})` }}><span>Avg 8h 53m</span></div>
+                    {WEEK.map((w, i) => (
+                      <div className="col" key={w.d}>
+                        <div className="track">
+                          {w.tag && <em className={`mk ${w.tag === 'Holiday' ? 'hol' : 'wo'}`}>{w.tag}</em>}
+                          <i className={i === WEEK.length - 1 ? 'on' : ''} style={{ height: `${Math.max((w.h / 12) * 100, 3)}%` }}>
+                            {i === WEEK.length - 1 && <span className="tip">{w.l}</span>}
+                          </i>
+                        </div>
+                        <span className={i === WEEK.length - 1 ? 'day on' : 'day'}>{w.d}<small>{w.n}</small></span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="wk-tiles">
+                  <div><small><Icon name="clock" size={13} />Total time</small><b>37h 22m</b></div>
+                  <div className="amber"><small><Icon name="briefcase" size={13} />Work days</small><b>4</b></div>
+                  <div><small><Icon name="caloff" size={13} />Week offs</small><b>2</b></div>
+                </div>
+              </Card>
+
+              
+
+            </div>
+
+            <div className="row r4">
+              <Card icon="calendar" title="Attendance history" tools tone="green">
+                <div className="hist-stats">
+                  {HIST_STATS.map(([v, l, n, tone], i) => (
+                    <div className={tone} key={l}><Icon name={HIST_ICONS[i]} size={16} className="hs-ic" /><b>{v}</b><span>{l}</span><small>{n}</small></div>
+                  ))}
+                </div>
+                <div className="hist-legend">
+                  {HIST_LEGEND.map(([tone, label]) => (<span key={label}><i className={tone} />{label}</span>))}
+                  <em>8 Sep 2026 – 7 Oct 2026</em>
+                </div>
+                <div className="cal" style={{ '--weeks': Math.ceil(HISTORY.length / 7) }}>
+                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => <span className="cal-h" key={d}>{d}</span>)}
+                  {HISTORY.map((c) => c.type === 'blank' ? (
+                    <div className="cell blank" key={c.key} />
+                  ) : (
+                    <div className={`cell c-${c.type}`} key={c.key}>
+                      <div className="cell-top"><b>{c.day}</b><em>{STATUS_LABEL[c.type]}</em></div>
+                      {c.range && <span className="cell-range">{c.range}</span>}
+                      {c.hours && <span className="cell-gross">{c.hours}</span>}
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              <div className="stack">
+                <Card icon="calendar" title="Today's agenda" action="Calendar">
+                <ul className="agenda">
+                  {AGENDA.map((a) => (
+                    <li key={a.title}>
+                      <span className="at">{a.t}</span>
+                      <span className={`ag-ic ${a.tone}`}><Icon name={a.icon} size={14} /></span>
+                      <div><b>{a.title}</b><small>{a.meta}</small></div>
+                      {a.join && <button type="button" className="join">Join</button>}
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+                
+                <Card icon="calendar" title="Upcoming holidays" action="View all">
+                <ul className="holidays">
+                  {HOLIDAYS.map((h) => (
+                    <li key={h.name}>
+                      <span className={h.next ? 'tile next' : 'tile'}><b>{h.d}</b><small>{h.m}</small></span>
+                      <div><b>{h.name}</b><small>{h.day}</small></div>
+                      <em className={h.next ? 'hb next' : 'hb'}>{h.badge}</em>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+                
+              </div>
+            </div>
+            </>
+            )}
+
+          </div>
+        </div>
+      </main>
+      {fly && collapsed && (
+        <div
+          className={fly.item.children ? 'fly' : 'fly tip'}
+          style={{ top: fly.top, left: fly.left }}
+          role={fly.item.children ? 'menu' : 'tooltip'}
+          onMouseEnter={() => clearTimeout(flyTimer.current)}
+          onMouseLeave={hideFly}
+        >
+          <div className="fly-title">{fly.item.label}</div>
+          {fly.item.children && fly.item.children.map(([label, icon]) => (
+            <a key={label} href="#" role="menuitem" className="fly-item" onClick={(e) => { e.preventDefault(); setFly(null) }}>
+              <NavIcon name={icon} size={16} />
+              <span>{label}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

@@ -1,0 +1,17 @@
+/* Arc-UI chart look: soft grid, rounded shapes, quiet labels */
+.ab { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; }
+.ab-y { height: var(--h); display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; line-height: 1; }
+.ab-plot { position: relative; padding-bottom: 22px; }
+.ab-grid { position: absolute; left: 0; right: 0; top: 0; height: var(--h); display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+.ab-grid i { display: block; height: 0; border-top: 1px dashed var(--line); } .ab-grid i:last-child { border-top-style: solid; }
+.ab-cols { position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 6px; height: var(--h); }
+.ab-col { position: relative; flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; cursor: default; }
+.ab-col b { display: block; width: min(100%, 34px); border-radius: 8px 8px 3px 3px; background: color-mix(in srgb, var(--c) 30%, transparent); transition: background-color 0.1s linear, height 0.2s ease-out; }
+.ab-col.peak b, .ab-col.on b { background: var(--c); } .ab-col b.zero { background: var(--line); opacity: 0.8; }
+.ab-col span { position: absolute; bottom: -22px; font-size: 11px; color: var(--muted); white-space: nowrap; } .ab-col.on span { color: var(--ink); }
+.ab-tip { position: absolute; top: 0; left: 50%; transform: translate(-50%, -2px); padding: 2px 8px; border-radius: 6px; background: #0A0A0A; color: #fff; font: 600 12px/18px var(--font); font-style: normal; white-space: nowrap; pointer-events: none; z-index: 2; }
+.ar { position: relative; flex: none; }
+.ar svg { width: 100%; height: 100%; display: block; }
+.ar-c { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 22%; }
+.ar-c strong { font-size: 18px; line-height: 24px; font-weight: 600; color: var(--ink); } .ar-c small { font-size: 12px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .ab-col b { transition: none; } }

@@ -1,0 +1,50 @@
+/* Arc-UI style donut card. Container-query based so it adapts to any card width, not only the viewport. */
+.dn { container-type: inline-size; padding: 20px 24px 24px; border: 1px solid var(--line); border-radius: 24px; background: var(--panel); box-shadow: var(--shadow-xs); min-width: 0; }
+.dash.dark .dn { background: #1E1E21; }
+.dn-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.dn-h h3 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; color: var(--ink); } .dn-h p { margin: 2px 0 0; font-size: 14px; line-height: 20px; color: var(--muted); }
+.dn-seg { display: inline-flex; gap: 2px; padding: 4px; border-radius: 14px; background: var(--tile); border: 1px solid var(--line); }
+.dn-seg button { height: 32px; padding: 0 14px; border: 0; border-radius: 10px; background: none; color: var(--muted); font: 500 14px/20px var(--font); cursor: pointer; }
+.dn-seg button:hover { color: var(--ink); } .dn-seg button.on { background: var(--control); color: var(--ink); box-shadow: var(--shadow-xs); } .dash.dark .dn-seg button.on { background: var(--active); color: #fff; box-shadow: none; }
+.dn-chart { position: relative; width: min(100%, 260px); aspect-ratio: 1; margin: 12px auto 20px; }
+.dn-chart svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.dn-arc { transition: stroke-width 0.12s ease-out, opacity 0.12s linear; cursor: pointer; }
+.dn-c { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; text-align: center; }
+.dn-c span { font-size: clamp(12px, 5cqw, 14px); color: var(--ink-2); } .dn-c b { font-size: clamp(24px, 10cqw, 36px); line-height: 1.15; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.dn-l { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; }
+.dn-l li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto 48px; align-items: center; gap: 12px; padding: 10px 8px; margin: 0 -8px; border-radius: 10px; cursor: default; transition: background-color 0.1s linear; }
+.dn-l li.on { background: var(--tile); }
+.dn-l i { width: 12px; height: 12px; border-radius: 50%; }
+.dn-l li > span { display: flex; flex-direction: column; min-width: 0; } .dn-l li b { font-size: 15px; font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .dn-l li small { font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dn-l em { font-style: normal; font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; } .dn-l strong { font-size: 15px; font-weight: 600; text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+/* narrow card: tighter padding, legend drops the raw value */
+@container (max-width: 340px) { .dn-l li { grid-template-columns: 12px minmax(0, 1fr) 44px; } .dn-l em { display: none; } .dn-seg button { padding: 0 10px; } }
+@container (max-width: 260px) { .dn-chart { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .dn-arc, .dn-l li { transition: none; } }
+.dn-c small { font-size: 13px; color: var(--muted); margin-top: -2px; }
+.dn.fill { height: 100%; box-sizing: border-box; }
+
+/* compact: chart on the left, legend on the right, so the card stays short */
+@media (min-width: 521px) {
+  .dn.compact { display: grid; grid-template-columns: 150px minmax(0, 1fr); column-gap: 20px; row-gap: 4px; align-items: center; align-content: start; padding: 16px 20px 18px; }
+  .dn.compact .dn-h { grid-column: 1 / -1; }
+  .dn.compact .dn-chart { width: 150px; margin: 18px 0 0; } .dn.compact .dn-l { margin-top: 18px; }
+  .dn.compact .dn-c b { font-size: 26px; } .dn.compact .dn-c span { font-size: 12px; } .dn.compact .dn-c small { font-size: 11px; }
+  .dn.compact .dn-l li { padding: 6px 8px; } .dn.compact .dn-l li b { font-size: 14px; } .dn.compact .dn-l em, .dn.compact .dn-l strong { font-size: 14px; }
+}
+.dn.compact { padding-top: 16px; padding-bottom: 18px; border-radius: 20px; }
+.dn.compact .dn-h p { font-size: 13px; }
+.dn.compact .dn-seg { padding: 3px; border-radius: 12px; } .dn.compact .dn-seg button { height: 28px; font-size: 13px; padding: 0 12px; }
+/* filled card: chart centred, legend pinned to the bottom */
+.dn.fill { display: flex; flex-direction: column; }
+.dn.fill .dn-chart { width: min(100%, 160px); margin: auto; flex: none; }
+.dn.fill .dn-l { margin-top: 12px; }
+.dn.fill .dn-chart { margin-top: 12px; margin-bottom: 12px; align-self: center; }
+.dn.fill .dn-c b { font-size: 28px; } .dn.fill .dn-c span { font-size: 12px; } .dn.fill .dn-c small { font-size: 11px; }
+
+/* leave balance on the dashboard: header on one row, tight legend, so the card is never taller than the table beside it */
+.dn.fill { padding: 16px 20px 14px; }
+.dn.fill .dn-h { flex-wrap: nowrap; align-items: center; } .dn.fill .dn-h p { margin: 0; }
+.dn.fill .dn-chart { margin: 8px auto; }
+.dn.fill .dn-l { margin-top: 4px; } .dn.fill .dn-l li { padding: 5px 8px; }
+.dn.lv { height: 100%; box-sizing: border-box; padding: 16px 20px 18px; border-radius: 12px; } .dn.lv .dn-chart { width: min(100%, 170px); margin: 4px auto 10px; } .dn.lv .dn-l li { padding: 6px 8px; }

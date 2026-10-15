@@ -1,0 +1,49 @@
+/* ---------- Form controls: Untitled UI base components (checkbox / radio / select / date / number / file) + Arc spring motion ---------- */
+.dash input[type='checkbox'], .dash input[type='radio'] {
+  -webkit-appearance: none; appearance: none; flex: none; position: relative; width: 16px; height: 16px; margin: 0; padding: 0;
+  border: 1px solid var(--line-strong); border-radius: 4px; background: var(--control); box-shadow: var(--shadow-xs); cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
+}
+.dash input[type='radio'] { border-radius: 50%; }
+.dash input[type='checkbox']:hover:not(:disabled), .dash input[type='radio']:hover:not(:disabled) { border-color: var(--orange-solid); background: var(--orange-bg); }
+.dash input[type='checkbox']:checked, .dash input[type='checkbox']:indeterminate, .dash input[type='radio']:checked { border-color: var(--orange-solid); background: var(--orange-solid); }
+.dash input[type='checkbox']::after, .dash input[type='radio']::after { content: ''; position: absolute; opacity: 0; transform: scale(0.4); transition: transform 0.22s cubic-bezier(.3,1.6,.5,1), opacity 0.12s; }
+.dash input[type='checkbox']::after { left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0.4); }
+.dash input[type='checkbox']:checked::after { opacity: 1; transform: rotate(45deg) scale(1); }
+.dash input[type='checkbox']:indeterminate::after { left: 3.5px; top: 6.5px; width: 7px; height: 0; border-width: 0 0 2px 0; opacity: 1; transform: none; }
+.dash input[type='radio']::after { left: 4.5px; top: 4.5px; width: 5px; height: 5px; border-radius: 50%; background: #fff; }
+.dash input[type='radio']:checked::after { opacity: 1; transform: scale(1); }
+.dash input[type='checkbox']:active:not(:disabled), .dash input[type='radio']:active:not(:disabled) { transform: scale(0.92); }
+.dash input[type='checkbox']:focus-visible, .dash input[type='radio']:focus-visible { outline: none; border-color: var(--orange-solid); box-shadow: 0 0 0 4px color-mix(in srgb, var(--orange-solid) 24%, transparent); }
+.dash input[type='checkbox']:disabled, .dash input[type='radio']:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+.dash input[type='checkbox']:disabled:not(:checked):not(:indeterminate) { background: var(--tile); }
+.dash.dark input[type='checkbox']:checked::after { border-color: #1A1A1D; } .dash.dark input[type='radio']:checked::after { background: #1A1A1D; }
+
+/* selects without their own chevron get one (Untitled "Select") */
+.dash select:not(:has(+ svg)) {
+  -webkit-appearance: none; appearance: none; padding-right: 36px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important; background-position: right 12px center !important;
+}
+.dash select option { background: var(--panel); color: var(--ink); }
+
+/* date / time / number */
+.dash input[type='date'], .dash input[type='time'] { font-variant-numeric: tabular-nums; min-width: 0; }
+.dash input[type='date']::-webkit-calendar-picker-indicator, .dash input[type='time']::-webkit-calendar-picker-indicator { opacity: 0.55; cursor: pointer; border-radius: 4px; }
+.dash input[type='date']::-webkit-calendar-picker-indicator:hover, .dash input[type='time']::-webkit-calendar-picker-indicator:hover { opacity: 1; background: var(--active); }
+.dash.dark input[type='date'], .dash.dark input[type='time'], .dash.dark input[type='number'], .dash.dark select, .dash.dark textarea { color-scheme: dark; }
+.dash.dark input[type='date']::-webkit-calendar-picker-indicator, .dash.dark input[type='time']::-webkit-calendar-picker-indicator { filter: invert(1); }
+.dash.dark select:not(:has(+ svg)) { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239A9AA0' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important; }
+.dash input[type='number'] { -moz-appearance: textfield; }
+.dash input[type='number']::-webkit-inner-spin-button, .dash input[type='number']::-webkit-outer-spin-button { opacity: 0; margin: 0; }
+.dash input[type='number']:hover::-webkit-inner-spin-button, .dash input[type='number']:focus::-webkit-inner-spin-button { opacity: 0.6; }
+
+/* placeholder + selection + scrollbars in every field */
+.dash :is(input, textarea)::placeholder { color: var(--faint); }
+.dash ::selection { background: color-mix(in srgb, var(--orange-solid) 28%, transparent); }
+.dash textarea { scrollbar-width: thin; }
+.dash :is(input, select, textarea):disabled { opacity: 0.55; cursor: not-allowed; background: var(--tile); }
+
+/* label wrapper for a checkbox + text */
+.dash label:has(> input[type='checkbox']), .dash label:has(> input[type='radio']) { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .dash input[type='checkbox']::after, .dash input[type='radio']::after { transition: none; } }

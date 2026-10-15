@@ -1,0 +1,18 @@
+/* Accent colour themes. The dashboard's selected/active colour is driven by the --orange-* tokens;
+   [data-accent] on .dash swaps them. Orange is the default defined in Dashboard.css. */
+.dash[data-accent='zinc'] { --orange-bg: #F4F4F5; --orange-bd: #D4D4D8; --orange-fg: #3F3F46; --orange-solid: #27272A; }
+.dash.dark[data-accent='zinc'] { --orange-bg: rgb(161 161 170 / 0.14); --orange-bd: rgb(161 161 170 / 0.35); --orange-fg: #D4D4D8; --orange-solid: #A1A1AA; }
+.dash[data-accent='red'] { --orange-bg: #FEF2F2; --orange-bd: #FECACA; --orange-fg: #B91C1C; --orange-solid: #DC2626; }
+.dash.dark[data-accent='red'] { --orange-bg: rgb(248 113 113 / 0.14); --orange-bd: rgb(248 113 113 / 0.35); --orange-fg: #FCA5A5; --orange-solid: #F87171; }
+.dash[data-accent='yellow'] { --orange-bg: #FEFCE8; --orange-bd: #FEF08A; --orange-fg: #854D0E; --orange-solid: #CA8A04; }
+.dash.dark[data-accent='yellow'] { --orange-bg: rgb(250 204 21 / 0.14); --orange-bd: rgb(250 204 21 / 0.35); --orange-fg: #FDE047; --orange-solid: #FACC15; }
+.dash[data-accent='green'] { --orange-bg: #F0FDF4; --orange-bd: #BBF7D0; --orange-fg: #15803D; --orange-solid: #16A34A; }
+.dash.dark[data-accent='green'] { --orange-bg: rgb(74 222 128 / 0.14); --orange-bd: rgb(74 222 128 / 0.35); --orange-fg: #86EFAC; --orange-solid: #4ADE80; }
+.dash[data-accent='violet'] { --orange-bg: #F5F3FF; --orange-bd: #DDD6FE; --orange-fg: #6D28D9; --orange-solid: #7C3AED; }
+.dash.dark[data-accent='violet'] { --orange-bg: rgb(167 139 250 / 0.14); --orange-bd: rgb(167 139 250 / 0.35); --orange-fg: #C4B5FD; --orange-solid: #A78BFA; }
+.dash[data-accent='rose'] { --orange-bg: #FFF1F2; --orange-bd: #FECDD3; --orange-fg: #BE123C; --orange-solid: #E11D48; }
+.dash.dark[data-accent='rose'] { --orange-bg: rgb(251 113 133 / 0.14); --orange-bd: rgb(251 113 133 / 0.35); --orange-fg: #FDA4AF; --orange-solid: #FB7185; }
+.dash[data-accent='blue'] { --orange-bg: #EFF6FF; --orange-bd: #BFDBFE; --orange-fg: #1D4ED8; --orange-solid: #2563EB; }
+.dash.dark[data-accent='blue'] { --orange-bg: rgb(96 165 250 / 0.14); --orange-bd: rgb(96 165 250 / 0.35); --orange-fg: #93C5FD; --orange-solid: #60A5FA; }
+.dash[data-accent='blueline'] { --orange-bg: #F0F9FF; --orange-bd: #BAE6FD; --orange-fg: #0369A1; --orange-solid: #0284C7; }
+.dash.dark[data-accent='blueline'] { --orange-bg: rgb(56 189 248 / 0.14); --orange-bd: rgb(56 189 248 / 0.35); --orange-fg: #7DD3FC; --orange-solid: #38BDF8; }

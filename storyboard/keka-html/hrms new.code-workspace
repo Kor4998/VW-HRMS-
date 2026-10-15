@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "hrms new",
+			"path": "../../hrms new"
+		},
+		{
+			"name": "storyboard",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "storyboard"
+	}
+}

@@ -1,0 +1,19 @@
+/* shared checkbox look (portal + login). Colour comes from --cb (set per scope). */
+.cbf { display: inline-grid; grid-template-columns: 16px auto; column-gap: 8px; align-items: start; cursor: pointer; }
+.cbf input { margin-top: 2px; }
+.cbf-t { display: flex; flex-direction: column; }
+.cbf-t b { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--cb-text, var(--ink-2)); }
+.cbf-t small { font-size: 14px; line-height: 20px; color: var(--cb-sub, var(--muted)); }
+.cbf:has(input:disabled) { cursor: not-allowed; } .cbf:has(input:disabled) .cbf-t { opacity: 0.5; }
+.login-page { --cb: #fff; --cb-text: var(--fg); --cb-sub: var(--fg-muted); }
+.login-page[data-theme='light'] { --cb: #0a0a0a; }
+.login-page input[type='checkbox'] {
+  -webkit-appearance: none; appearance: none; position: relative; width: 16px; height: 16px; margin: 0; padding: 0; flex: none; cursor: pointer;
+  border: 1px solid var(--input-border); border-radius: 4px; background: transparent; transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
+}
+.login-page input[type='checkbox']:checked, .login-page input[type='checkbox']:indeterminate { background: var(--cb); border-color: var(--cb); }
+.login-page input[type='checkbox']::after { content: ''; position: absolute; left: 4.5px; top: 1.5px; width: 4px; height: 8px; border: solid var(--bg); border-width: 0 2px 2px 0; opacity: 0; transform: rotate(45deg) scale(0.4); transition: transform 0.22s cubic-bezier(.3,1.6,.5,1), opacity 0.12s; }
+.login-page input[type='checkbox']:checked::after { opacity: 1; transform: rotate(45deg) scale(1); }
+.login-page input[type='checkbox']:focus-visible { outline: none; border-color: var(--cb); box-shadow: 0 0 0 4px color-mix(in srgb, var(--cb) 24%, transparent); }
+.dash label.cbf:has(> input[type='checkbox']) { display: inline-grid; grid-template-columns: 16px auto; align-items: start; gap: 0 8px; }
+.dash label.cbf input { margin-top: 2px; }

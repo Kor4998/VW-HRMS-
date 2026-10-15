@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Keka – Leave</title><link rel="stylesheet" href="keka.css">
+<style>
+.pad{padding:0 20px}
+.top{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.three{display:grid;grid-template-columns:repeat(3,425px);gap:20px}
+.three.wide{grid-template-columns:repeat(3,1fr)}
+.mini{height:160px;padding:16px;position:relative}.mini h4{font-size:12.5px;font-weight:500}
+.bars{position:absolute;left:16px;right:16px;bottom:16px;height:70px;display:flex;align-items:flex-end;gap:12px;border-top:1px solid var(--line);padding-top:6px}
+.bars span{flex:1;display:grid;justify-items:center;align-items:end;gap:6px;font-size:10.5px;font-weight:600;height:100%}
+.bars span i{width:100%;background:#A48FD5;display:block}
+.donut{width:100px;height:100px;border-radius:50%;margin:12px auto 0;display:grid;place-items:center;font-size:11px;text-align:center}
+.donut b{width:76px;height:76px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-weight:400}
+.bal{padding:0;height:362px;position:relative}.bal h4{text-align:center;font-size:12.5px;padding-top:22px}.bal a{position:absolute;right:16px;top:22px;font-size:11.5px}
+.bal .donut{width:150px;height:150px;margin-top:30px}.bal .donut b{width:128px;height:128px;font-size:12px}
+.bal .st{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1fr}.bal .st div{padding:10px 16px;border:1px solid var(--line);font-size:13px}.bal .st small{display:block;font-size:9px;letter-spacing:.4px;color:var(--ink-2);text-transform:uppercase}
+.filters{display:flex;height:50px;border:1px solid var(--line);background:var(--panel);align-items:center;font-size:12.5px}.filters>div{width:200px;height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-right:1px solid var(--line);color:var(--ink-2)}
+</style></head>
+<body data-rail="me">
+<div class="shell"><div class="subtabs"><a class="on">Summary</a></div>
+<div class="pad" style="padding-top:30px;padding-bottom:30px">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h2 class="sec" style="margin:0;font-size:18px">Pending leave requests</h2><span class="card" style="padding:9px 16px;font-size:12.5px;color:var(--link);border-color:var(--line-2)">Jan 2026 - Dec 2026 ▾</span></div>
+  <div class="top" style="margin-top:20px"><div class="card" style="height:106px;display:flex;align-items:center;padding:0 16px;gap:16px"><span style="width:48px;height:48px;border-radius:50%;background:#1b1f3e;display:grid;place-items:center">🎉</span><div><b style="font-weight:500">Hurray! No pending leave requests</b><div style="font-size:12px;margin-top:2px">Request leave on the right!</div></div></div>
+    <div class="card" style="padding:16px;height:126px;font-size:12px;line-height:2"><span class="btn" style="height:40px;margin-bottom:6px">Request Leave</span><br><a>Request Credit for Compensatory Off</a><br><a>Leave Policy Explanation</a></div></div>
+  <h2 class="sec" style="margin:30px 0 14px;font-size:17px">My Leave Stats</h2>
+  <div class="three wide" style="grid-template-columns:425px 425px 1fr"><div class="card mini"><h4>Weekly Pattern</h4><div class="bars"><span><i style="height:14px"></i>Mon</span><span><i style="height:10px"></i>Tue</span><span><i style="height:22px"></i>Wed</span><span><i style="height:26px"></i>Thu</span><span><i style="height:40px"></i>Fri</span><span><i style="height:2px"></i>Sat</span><span><i style="height:2px"></i>Sun</span></div></div>
+    <div class="card mini"><h4>Consumed Leave Types</h4><div class="donut" style="background:conic-gradient(#9BB82E 0 30%,#E57373 30%);margin-top:0;position:absolute;left:50%;transform:translateX(-50%);top:12px"><b>Leave<br>Types</b></div></div>
+    <div class="card mini"><h4>Monthly Stats</h4><div class="bars"><span><i style="height:38px"></i>Jan</span><span><i style="height:42px"></i>Feb</span><span><i style="height:32px"></i>Mar</span><span><i style="height:18px"></i>Apr</span><span><i style="height:6px"></i>May</span><span><i style="height:12px"></i>Jun</span><span><i style="height:3px"></i>Jul</span><span><i style="height:28px"></i>Aug</span><span><i style="height:2px"></i>Sep</span><span><i style="height:2px"></i>Oct</span><span><i style="height:2px"></i>Nov</span><span><i style="height:2px"></i>Dec</span></div></div></div>
+  <h2 class="sec" style="margin:30px 0 14px;font-size:17px">Leave Balances</h2>
+  <div class="three" style="grid-template-columns:425px 425px 425px">
+    <div class="card bal"><h4>Comp Offs</h4><a>View details</a><div class="donut" style="background:#9A86CF"><b>1 Day<br>Available</b></div><div class="st"><div><small>Available</small>1 day</div><div><small>Consumed</small>0 day</div><div style="grid-column:1/-1"><small>Annual quota</small>0 day</div></div></div>
+    <div class="card bal"><h4>Paid Leave</h4><a>View details</a><div class="donut" style="background:conic-gradient(#EF8A8A 0 14%,#F8CFCF 14%)"><b>6.5 Days<br>Available</b></div><div class="st"><div><small>Available</small>6.5 days</div><div><small>Consumed</small>16 days</div><div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;padding:0;border:0"><div><small>Accrued so far</small>13.5 days</div><div><small>Carryover</small>6 days</div><div><small>Annual quota</small>18 days</div></div></div></div>
+    <div class="card bal"><h4>Unpaid Leave</h4><a>View details</a><div class="donut" style="background:#E3EBC1"><b>∞ Days<br>Available</b></div><div class="st"><div><small>Available</small>∞</div><div><small>Consumed</small>12.5 days</div><div style="grid-column:1/-1"><small>Annual quota</small>∞</div></div></div>
+  </div>
+  <h2 class="sec" style="margin:30px 0 14px;font-size:17px">Leave History</h2>
+  <div class="filters"><div>Leave Type <span>⌄</span></div><div>Status <span>⌄</span></div><div style="border:0;color:#fff;justify-content:flex-start;gap:10px">⌕ Search</div></div>
+  <div class="card" style="border-top:0"><div style="text-align:right;padding:18px 16px 14px;font-size:11px;color:var(--ink-2)">Total: 24</div>
+  <table class="table"><thead><tr><th>Leave dates</th><th>Leave type</th><th>Status</th><th>Requested by</th><th>Action taken on</th><th>Leave note</th><th>Reject/Cancellation reason</th><th>Actions</th></tr></thead><tbody>
+  <tr><td>28 Aug 2026<small>2 Days</small></td><td>Unpaid Leave<small>Requested on 30 Aug 2026</small></td><td>Approved<small>by Attendance Penalisation Policy</small></td><td>Penalisation Policy</td><td>30 Aug 2026</td><td><small style="color:var(--ink-2)">Leave deducted as no attendance logged for 28-08-2026</small></td><td></td><td>•••</td></tr>
+  <tr><td>20 Aug 2026<small>0.5 Day</small></td><td>Unpaid Leave<small>Requested on 22 Aug 2026</small></td><td>Approved<small>by Attendance Penalisation Policy</small></td><td>Penalisation Policy</td><td>22 Aug 2026</td><td><small style="color:var(--ink-2)">Leave deducted on 20-08-2026 because of exceeding missing…</small></td><td></td><td>•••</td></tr>
+  <tr><td>06 Aug - 07 Aug 2026<small>2 Days</small></td><td>Paid Leave<small>Requested on 27 Jul 2026</small></td><td>Approved<small>by Kalyani Devarapalli</small></td><td>Korlapati Venkatesh Aravind</td><td>30 Jul 2026</td><td><small style="color:var(--ink-2)">request leave as I am going to my hometown.</small></td><td></td><td>•••</td></tr>
+  </tbody></table>
+  <div style="text-align:right;padding:20px 20px;font-size:12px;border-top:1px solid var(--line)">1 to 5 of 24 &nbsp;&nbsp;&nbsp;&nbsp; Page 1 of 5 ›</div></div>
+</div></div>
+<script src="keka.js"></script><script>shell(ME_TABS,'Leave')</script>
+</body></html>

@@ -1,0 +1,23 @@
+.dash .af { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; }
+.dash .af > li { position: relative; display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.dash .af > li:last-child { border-bottom: 0; }
+.dash .af-conn > li { border-bottom: 0; padding-bottom: 20px; }
+.dash .af-conn > li:not(:last-child)::before { content: ''; position: absolute; left: 19px; top: 60px; bottom: 4px; width: 2px; background: var(--line); }
+.dash .af-av { position: relative; width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 50%; font-size: 13px; font-weight: 600; }
+.dash .af-av.blue { background: var(--info-bg); color: var(--info-fg); } .dash .af-av.pink { background: var(--rose-bg); color: var(--rose-fg); } .dash .af-av.amber { background: var(--warn-bg); color: var(--warn-fg); } .dash .af-av.green { background: var(--ok-bg); color: var(--ok-fg); } .dash .af-av.violet { background: var(--violet-bg); color: var(--violet-fg); }
+.dash .af-av i { position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border: 1.5px solid var(--panel); border-radius: 50%; background: var(--faint); } .dash .af-av i.on { background: var(--ok-solid); }
+.dash .af-b { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.dash .af-b p { margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-2); }
+.dash .af-b p b { font-weight: 500; color: var(--ink); } .dash .af-b p small { margin-left: 8px; font-size: 12px; color: var(--muted); }
+.dash .af-t { color: var(--muted); }
+.dash .af-l { font-weight: 500; color: var(--orange-fg); text-decoration: none; } .dash .af-l:hover { text-decoration: underline; }
+.dash .af-file { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.dash .af-file > div { display: flex; flex-direction: column; } .dash .af-file b { font-size: 14px; font-weight: 500; color: var(--ink); } .dash .af-file small { font-size: 14px; color: var(--muted); }
+.dash .af-fi { position: relative; width: 32px; height: 40px; display: grid; place-items: center; color: var(--faint); }
+.dash .af-fi em { position: absolute; left: -4px; bottom: 6px; padding: 0 4px; border-radius: 3px; color: #fff; font-size: 9px; line-height: 12px; font-style: normal; font-weight: 700; }
+.dash .af-fi em.pdf { background: #D92D20; } .dash .af-fi em.txt { background: #344054; } .dash .af-fi em.mp4 { background: #2970FF; } .dash .af-fi em.xls { background: #079455; }
+.dash .af-msg { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 0 8px 8px 8px; background: var(--panel); font-size: 14px; line-height: 20px; color: var(--ink-2); }
+.dash .af-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.dash .af-tags span { height: 22px; padding: 0 8px; display: inline-flex; align-items: center; border: 1px solid; border-radius: 6px; font-size: 12px; font-weight: 500; }
+.dash .af-tags .violet { background: var(--violet-bg); border-color: var(--violet-bd); color: var(--violet-fg); } .dash .af-tags .blue { background: var(--info-bg); border-color: var(--info-bd); color: var(--info-fg); } .dash .af-tags .green { background: var(--ok-bg); border-color: var(--ok-bd); color: var(--ok-fg); }
+.dash .af-dot { width: 8px; height: 8px; margin-top: 6px; flex: none; border-radius: 50%; background: var(--ok-solid); }

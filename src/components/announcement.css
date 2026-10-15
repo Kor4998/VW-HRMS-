@@ -1,0 +1,10 @@
+.dash .an { display: flex; flex-direction: column; gap: 12px; }
+.dash .an-by { margin: -4px 0 0; font-size: 14px; color: var(--muted); }
+.dash .an-tag { align-self: flex-start; height: 20px; padding: 0 8px; display: inline-flex; align-items: center; border: 1px solid var(--info-bd); border-radius: 999px; background: var(--info-bg); color: var(--info-fg); font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.dash .an-img { display: grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--tile); overflow: hidden; }
+.dash .an-img img { display: block; width: 100%; max-width: 270px; height: auto; }
+.dash .an-text { margin: 4px 0 0; font-size: 16px; line-height: 24px; color: var(--ink); }
+.dash .an-foot { display: flex; align-items: center; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.dash .an-foot i { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--violet-bg); color: var(--violet-fg); font-size: 10px; font-style: normal; font-weight: 700; }
+.dash .np-item.ann-click { cursor: pointer; } .dash .np-item.ann-click:hover { background: var(--tile); }
+.dash .ann .ann-open { padding: 0; border: 0; background: none; font: inherit; text-align: left; cursor: pointer; flex: 1; }

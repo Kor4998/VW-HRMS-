@@ -1,0 +1,14 @@
+.dash .fm-trig { position: relative; }
+.dash .fm-n { min-width: 18px; height: 18px; padding: 0 5px; display: inline-grid; place-items: center; border-radius: 9px; background: var(--orange-solid); color: #fff; font-size: 11px; font-style: normal; font-weight: 700; }
+.dash .fm { position: fixed; z-index: 140; width: 280px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-lg); overflow: hidden; animation: dp-in 0.14s ease-out; }
+.dash.dark .fm { background: #2A2A2F; border-color: var(--line-strong); }
+.dash .fm-s { display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 44px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.dash .fm-s input { flex: 1; min-width: 0; border: 0; background: none; outline: none; color: var(--ink); font: inherit; font-size: 14px; }
+.dash .fm ul { margin: 0; padding: 6px; max-height: 260px; overflow-y: auto; list-style: none; scrollbar-width: thin; }
+.dash .fm li label { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 8px; cursor: pointer; }
+.dash .fm li label:hover { background: var(--tile); }
+.dash .fm li b { font-size: 14px; font-weight: 500; color: var(--ink); } .dash .fm li small { font-size: 14px; color: var(--muted); }
+.dash .fm-none { padding: 14px 10px; font-size: 14px; color: var(--muted); }
+.dash .fm-f { display: flex; justify-content: space-between; padding: 10px 16px; border-top: 1px solid var(--line); }
+.dash .fm-f button { padding: 0; border: 0; background: none; color: var(--ink-2); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.dash .fm-f button:hover { color: var(--orange-fg); }

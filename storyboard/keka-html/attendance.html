@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Keka – Attendance</title><link rel="stylesheet" href="keka.css">
+<style>
+.grid3{display:grid;grid-template-columns:573px 573px 593px;gap:20px;padding:0 20px}
+.grid3 .card{height:202px;margin-top:6px;padding:16px;position:relative}
+.stat{display:grid;grid-template-columns:1fr 90px 110px;align-items:center;font-size:20px;padding:10px 0}
+.stat .who{display:flex;gap:10px;align-items:center;font-size:13px}.stat i{width:32px;height:32px;border-radius:50%;background:#F5A524;display:block}
+.stat small{display:block;font-size:9.5px;letter-spacing:.3px;color:var(--ink-2)}
+.bar{height:10px;border-radius:5px;background:linear-gradient(90deg,var(--teal) 0 44%,#37505f 44% 56%,var(--teal) 56%)}
+.logs-tabs{display:flex;background:var(--panel);border:1px solid var(--line);height:46px}
+.logs-tabs a{display:flex;align-items:center;padding:0 20px;color:var(--ink-2);font-size:12.5px}
+.logs-tabs a.on{background:#2A1B4E;color:#fff}
+.req{margin-top:20px}.req .h{height:73px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;font-size:14.5px}
+.req .h span{font-size:12.5px}.req .b{padding:16px;border-top:1px solid var(--line)}
+</style></head>
+<body data-rail="me">
+<div class="shell"><div class="main" style="padding:20px 0">
+  <div class="grid3" style="margin-bottom:22px">
+    <div><h2 class="sec">Attendance Stats</h2></div><div><h2 class="sec">Timings</h2></div><div><h2 class="sec">Actions</h2></div>
+  </div>
+  <div class="grid3" style="margin-top:-22px">
+    <div class="card"><div style="font-size:12px;margin-bottom:6px">Last Week ⌄</div>
+      <div class="stat"><div class="who"><i></i>Me</div><div style="font-size:19px"><small>AVG HRS / DAY</small>12h 11m</div><div><small>ON TIME ARRIVAL</small>60%</div></div>
+      <div class="stat" style="border-top:1px solid var(--line)"><div class="who"><i style="background:#63A2E0"></i>My Team</div><div>4h 4m</div><div>20%</div></div></div>
+    <div class="card"><div style="display:flex;gap:10px"><span class="chip">M</span><span class="chip on">T</span><span class="chip">W</span><span class="chip">T</span><span class="chip">F</span><span class="chip">S</span><span class="chip">S</span></div>
+      <div style="position:absolute;left:16px;right:16px;bottom:16px;font-size:11px"><div style="margin-bottom:8px">Today (9:30 AM - 6:30 PM)</div><div class="bar"></div><div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px"><span>Duration: 9h 0m</span><span>60 min</span></div></div></div>
+    <div class="card" style="display:grid;grid-template-columns:140px 1fr;gap:20px;align-content:start">
+      <div><div style="border:1px solid var(--line);height:38px;display:flex;align-items:center;padding:0 16px;font-size:17px">11:24:48 <small style="font-size:11px;margin-left:3px">AM</small></div><div style="font-size:11px;margin:8px 0 14px">Tue, 08 Sept 2026</div><div class="lbl">Total hours</div><div style="font-size:12px;margin-top:8px;line-height:1.7">Effective: 1h 45m<br>Gross: 1h 45m</div></div>
+      <div><span class="btn red" style="height:40px;width:121px">Web Clock-out</span><div style="font-size:11px;margin:10px 0 6px"><b>1h:45m</b> Since Last Login</div><div style="font-size:12px;line-height:1.8"><a>⌂ Work From Home</a><br><a>▤ Attendance Policy</a></div></div></div>
+  </div>
+  <div style="padding:0 20px;margin-top:22px"><div style="display:flex;justify-content:space-between;align-items:center"><h2 class="sec" style="margin:0">Logs &amp; Requests</h2><span style="font-size:12px"><span class="toggle"></span> 24 hour format</span></div>
+    <div class="logs-tabs" style="margin-top:10px"><a>Attendance Log</a><a>Calendar</a><a class="on">Attendance Requests</a></div>
+    <div class="card req"><div class="h">Work From Home / On Duty Requests<span>09 Aug 2026 - 22 Sep 2026 &nbsp;⋮</span></div><div class="b"><div class="info-box">No Work From Home / On Duty Requests Available.</div></div></div>
+    <div class="card req"><div class="h">Regularization Requests<span>09 Aug 2026 - 22 Sep 2026 &nbsp;⋮</span></div><div class="b"><div class="info-box">No Regularization Requests Available.</div></div></div>
+    <div class="card req"><div class="h">Remote Clock in Requests<span>09 Aug 2026 - 22 Sep 2026 &nbsp;⋮</span></div><div class="b"><div class="info-box">No Remote clock in Requests Available.</div></div></div>
+  </div>
+</div></div>
+<script src="keka.js"></script><script>shell(ME_TABS,'Attendance')</script>
+</body></html>

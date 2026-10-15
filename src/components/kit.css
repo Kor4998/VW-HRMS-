@@ -1,0 +1,201 @@
+/* Untitled UI interaction rules (from untitled-ui-base-components): one focus ring, 100ms linear hover, 50% disabled, 8px progress tracks. */
+.dash { --ring: #1D4FD7; --ring-gap: var(--page, #fff); } /* guide: focus ring = primary, 2px + 2px offset */
+.dash.dark { --ring: #3B82F6; }
+
+/* focus ring: 2px gap + 4px brand ring (kit: "ring 4px #9E77ED + 2px #fff") */
+.dash :is(button, a, summary, [role='button'], [role='tab'], [role='radio'], [role='switch'], [tabindex]:not([tabindex='-1'])):focus-visible,
+.dash :is(input:not([type='checkbox']):not([type='radio']), select, textarea):focus-visible,
+.dash :is(input[type='checkbox'], input[type='radio']):focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--ring-gap), 0 0 0 6px var(--ring) !important;
+}
+.dash :is(input:not([type='checkbox']):not([type='radio']), select, textarea)[aria-invalid='true']:focus-visible { box-shadow: 0 0 0 2px var(--ring-gap), 0 0 0 6px rgb(239 68 68 / 0.45) !important; }
+
+/* hover: dissolve, 100ms linear */
+.dash :is(button, a, input, select, textarea, .nav-item, .pn-item, [role='tab']) { transition: background-color 0.1s linear, border-color 0.1s linear, color 0.1s linear, box-shadow 0.1s linear; }
+
+/* disabled: 50% */
+.dash :is(button, input, select, textarea):disabled, .dash [aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+.dash :is(.ci-btn, .pm-send, .sw-btn, .mp-btn.primary):disabled { background: var(--brand-solid-disabled, inherit); }
+
+/* progress tracks: 8px, full radius */
+.dash :is(.iv-bar, .iv-tt, .pj-meter, .kb-bar, .pb-sp-prog, .sm-bars i, .rp-flow i, .hxb, .pm-seats i) { height: 8px; border-radius: 999px; }
+.dash :is(.iv-bar i, .iv-tt i, .pj-meter i, .kb-bar i, .pb-sp-prog i, .sm-bars i b, .rp-flow b, .pm-seats i b) { border-radius: 999px; }
+
+/* toggles: sm 36x20, md 44x24, knob white with shadow */
+.dash .sw-switch i { width: 36px; height: 20px; } .dash .sw-switch i::after { top: 2px; left: 18px; width: 16px; height: 16px; box-shadow: 0 1px 2px rgb(10 13 18 / 0.2); }
+.dash .sw-switch input:not(:checked) + i::after { left: 2px; }
+
+/* tooltip (kit): #0A0A0A, radius 8, Text xs Semibold white, 12px arrow */
+.kit-tip { position: fixed; z-index: 400; max-width: 320px; padding: 8px 12px; border-radius: 8px; background: #0A0A0A; color: #fff; font: 600 12px/18px Inter, system-ui, sans-serif; box-shadow: 0 12px 16px -4px rgb(10 13 18 / 0.08), 0 4px 6px -2px rgb(10 13 18 / 0.03); pointer-events: none; animation: kit-tip-in 0.1s linear; }
+.kit-tip::after { content: ''; position: absolute; left: var(--ax, 50%); width: 12px; height: 12px; margin-left: -6px; background: #0A0A0A; border-radius: 1px; transform: rotate(45deg); bottom: -5px; }
+.kit-tip.below::after { bottom: auto; top: -5px; }
+@keyframes kit-tip-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .kit-tip { animation: none; } .dash :is(button, a, input, select, textarea) { transition: none; } }
+
+/* application components kit */
+.dash .ov-scrim { backdrop-filter: blur(16px); }                                /* modal / command overlay: dark + blur 16 */
+.dash .ov-toasts { width: min(400px, calc(100vw - 32px)); }                      /* notification width 400 */
+.dash .ov-cmd { border-radius: 12px; }                                           /* command bar radius xl */
+.dash .ov-cmd-f { height: 52px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; }   /* footer 52 */
+.dash .dp-d.today::after { width: 6px; height: 6px; margin-left: -3px; }         /* calendar cell active dot 6 */
+.dash .mp-tabs button { height: 36px; }                                          /* tab button sm 36 inside a 44 bar */
+.dash :is(.wl-table, .ex-table, .pj-table, .pol-table, .at-table) th { height: 44px; box-sizing: border-box; }   /* table header cell 44 */
+.dash .tc-bar { min-height: 68px; }
+
+/* inputs that live inside a bordered wrapper keep the wrapper's focus style, not a second ring */
+.dash.dash.dash :is(.as2-search input, .search input, .fm-s input, .ov-cmd-s input, .ci-sum, .ci-desc, .cm-subject, .cm-body, .mp-search input, .pm-search input, .po-search input, .sw-chipbox input, .cm-chips input, .iv-labs input, .ci-pill input, .ci-pill select, .ci-lab input, .dp-foot input, .fm-search input, .pn-q input, .fy-search input):focus-visible { box-shadow: none !important; }
+.dash :is(.mp-search, .pm-search, .pn-q, .fy-search, .ci-pill, .sw-chipbox):focus-within { box-shadow: 0 0 0 2px var(--ring-gap), 0 0 0 6px var(--ring); }
+.dash .ov-cmd-s:focus-within { box-shadow: none; }
+
+/* radio-group items (kit): selected = 2px brand border + brand tint fill, and the radio dot turns solid brand */
+.dash :is(.sp-ac, .sp-fo, .sp-pv, .sw-tc, .pj-chips button) { transition: background-color 0.1s linear, border-color 0.1s linear, box-shadow 0.1s linear; }
+.dash :is(.sp-ac, .sp-fo).on { border-color: var(--orange-solid); background: var(--orange-bg); box-shadow: inset 0 0 0 1px var(--orange-solid); }
+.dash .sp-pv.on { background: var(--orange-bg); border-radius: 12px; box-shadow: inset 0 0 0 1px var(--orange-solid); }
+.dash .sp-pv { border: 1px solid transparent; padding: 8px; border-radius: 12px; }
+.dash .sp-pv.on { border-color: var(--orange-solid); }
+.dash .sp-fo.on em, .dash .sp-ac.on .sp-dot { box-shadow: none; }
+.dash :is(.sp-ac, .sp-fo):not(.on):hover { border-color: var(--line-strong); }
+/* native radios and checkboxes use the brand colour when checked */
+.dash input[type='radio'] { accent-color: var(--orange-solid); }
+.dash input[type='checkbox']:not(.cbf input) { accent-color: var(--orange-solid); }
+.dash .sp-pv.on .sp-shot { border-color: var(--line); box-shadow: none; }
+/* every selectable card: kit radio-group item (2px brand border + tint) */
+.dash :is(.pol-card, .mp-act, .fm-card, .su-card, .at-sel, .sh-chip, .pol-chips button).on, .dash .pol-card[aria-selected='true'] { border-color: var(--orange-solid); background: var(--orange-bg); box-shadow: inset 0 0 0 1px var(--orange-solid); }
+.dash .pol-card { transition: background-color 0.1s linear, border-color 0.1s linear, box-shadow 0.1s linear; }
+.dash .pol-card:not(.on):hover { background: var(--tile); border-color: var(--line-strong); }
+.dash .pol-card.on:hover { background: var(--orange-bg); }
+.dash .pol-card.on .pol-ic, .dash .pol-card.on > span:first-child { border-color: var(--orange-bd); background: var(--panel); color: var(--orange-fg); }
+
+/* KPI tab tiles + any dark-mode selected card: same 2px brand border + tint, no outer halo */
+.dash .mp-act { transition: background-color 0.1s linear, border-color 0.1s linear, box-shadow 0.1s linear; }
+.dash.dark .pol-card.on, .dash.dark .pol-card.on:hover { border-color: var(--orange-solid); background: var(--orange-bg); box-shadow: inset 0 0 0 1px var(--orange-solid); }
+/* action cards: neutral hover (tinted surface + darker border), no accent colour until pressed */
+.dash .mp-act:hover { background: var(--tile); border-color: var(--line-strong); }
+.dash .mp-act:hover .mp-act-ic { border-color: var(--line-strong); color: var(--ink); background: var(--control); }
+.dash .mp-act:hover .mp-act-plus { color: var(--ink-2); }
+.dash .mp-act:active { background: var(--active); transform: scale(0.99); }
+.dash .mp-act-ic, .dash .mp-act-plus { transition: background-color 0.1s linear, border-color 0.1s linear, color 0.1s linear; }
+@media (prefers-reduced-motion: reduce) { .dash .mp-act:active { transform: none; } }
+
+/* small buttons: icon and label centred on one line */
+.dash .mp-btn.sm, .dash .mp-btn { display: inline-flex; flex-direction: row; align-items: center !important; justify-content: center; gap: 6px; }
+.dash .mp-btn.sm { height: 32px; padding: 0 12px; font-size: 13px; }
+.dash .mp-btn > svg { flex: none; position: static; }
+
+/* hover on cards is coloured: accent tint + accent border (selected adds the 2px ring on top) */
+.dash :is(.mp-act, .pol-card:not(.on), .fy-card, .pj-card, .sw-tc, .sp-ac:not(.on), .sp-fo:not(.on), .rl-card, .po-sp):hover { background: var(--orange-bg); border-color: var(--orange-solid); }
+.dash .mp-act:hover .mp-act-ic { border-color: var(--orange-bd); background: var(--panel); color: var(--orange-fg); }
+.dash .mp-act:hover .mp-act-plus { color: var(--orange-fg); }
+.dash.dark :is(.mp-act, .pol-card:not(.on), .fy-card, .pj-card):hover { background: var(--orange-bg); }
+.dash .mp-act:active { background: var(--orange-bd); }
+
+/* My Profile "Edit profile" in dark mode: light filled button with dark text (was dark text on a dark fill) */
+.dash.dark .mp-btn.pv-primary { background: #F5F5F6 !important; border-color: transparent !important; color: #1A1A1D !important; }
+.dash.dark .mp-btn.pv-primary:hover { background: #fff !important; }
+.dash.dark .mp-btn.pv-primary svg { color: inherit; }
+
+/* action cards become compact buttons in the page header's top right (no extra row) */
+.dash .mp { position: relative; }
+.dash .mp > .mp-actions4 { position: absolute; top: 6px; right: 0; z-index: 2; display: flex; flex-wrap: nowrap; justify-content: flex-end; gap: 8px; margin: 0; }
+.dash .mp > .mp-actions4 .mp-act { flex-direction: row; align-items: center; gap: 8px; height: 36px; min-height: 36px; padding: 0 12px; border-radius: 8px; width: auto; }
+.dash .mp > .mp-actions4 .mp-act-ic { width: 18px; height: 18px; border: 0; background: none; box-shadow: none; border-radius: 0; }
+.dash .mp > .mp-actions4 .mp-act-ic svg { width: 16px; height: 16px; }
+.dash .mp > .mp-actions4 .mp-act b { flex: none; font-size: 14px; white-space: nowrap; }
+.dash .mp > .mp-actions4 .mp-act-plus { display: none; }
+.dash .mp > .mp-actions4 .mp-act:hover .mp-act-ic { background: none; border: 0; }
+/* narrow: the buttons drop under the title and wrap */
+@media (max-width: 1280px) { .dash .mp > .mp-actions4 { position: static; flex-wrap: wrap; justify-content: flex-start; } }
+.dash .mp > .mp-actions4 .mp-act { flex: none; }
+
+/* touch + modal hygiene */
+.dash :is(button, a, [role='button'], select, summary, label) { touch-action: manipulation; }
+.dash .ov-scrim, .dash .md-scrim, .dash .md { overscroll-behavior: contain; }
+
+/* command bar: the search row and footer keep their size, only the list scrolls */
+.dash .ov-cmd { overflow: hidden; }
+.dash .ov-cmd > .ov-cmd-s { flex: none; height: 56px; box-sizing: border-box; }
+.dash .ov-cmd > .ov-cmd-f { flex: none; height: 52px; box-sizing: border-box; }
+.dash .ov-cmd > .ov-cmd-l { flex: 1 1 auto; min-height: 160px; overflow-y: auto; overscroll-behavior: contain; }
+.dash .ov-cmd-s input { height: 100%; padding: 0; box-shadow: none; border: 0; background: none; }
+
+/* quick request buttons: each one takes its own colour on hover / keyboard focus */
+.dash .quick .btn { transition: background-color 0.1s linear, border-color 0.1s linear, color 0.1s linear; }
+.dash .quick .btn.q-leave:hover, .dash .quick .btn.q-leave:focus-visible { background: var(--info-bg); border-color: var(--info-solid); color: var(--info-fg); }
+.dash .quick .btn.q-wfh:hover, .dash .quick .btn.q-wfh:focus-visible { background: var(--teal-bg); border-color: var(--teal-solid); color: var(--teal-fg); }
+.dash .quick .btn.q-reg:hover, .dash .quick .btn.q-reg:focus-visible { background: var(--warn-bg); border-color: var(--warn-solid); color: var(--warn-fg); }
+.dash .quick .btn.q-comp:hover, .dash .quick .btn.q-comp:focus-visible { background: var(--violet-bg); border-color: var(--violet-solid); color: var(--violet-fg); }
+.dash .quick .btn:hover svg, .dash .quick .btn:focus-visible svg { color: currentColor; }
+
+/* ===== Design-language contract (VoltusFreight guide) ===== */
+/* skip link: the first Tab on every page; visually hidden until focused */
+.dash .skip-link { position: absolute; left: 12px; top: -48px; z-index: 2000; padding: 8px 14px; border-radius: 6px; background: var(--prj-blue); color: #fff; font: 600 13px/20px var(--font); text-decoration: none; transition: top 0.12s; }
+.dash .skip-link:focus, .dash .skip-link:focus-visible { top: 12px; outline: 2px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 4px var(--prj-blue); }
+/* thin 4px scrollbars everywhere (guide: global default, muted thumb, darkens on hover) */
+@supports (scrollbar-width: thin) { .dash * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 60%, transparent) transparent; } }
+.dash *::-webkit-scrollbar { width: 6px; height: 6px; } .dash *::-webkit-scrollbar-thumb { border-radius: 999px; background: color-mix(in srgb, var(--muted) 55%, transparent); } .dash *::-webkit-scrollbar-thumb:hover { background: var(--muted); } .dash *::-webkit-scrollbar-track { background: transparent; }
+/* motion honours the user's preference */
+@media (prefers-reduced-motion: reduce) { .dash *, .dash *::before, .dash *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+/* forced colours (Windows High Contrast): state keeps a structural cue, focus stays an outline */
+@media (forced-colors: active) {
+  .dash :is(.nav-item.active, .nav-sub-item.active, .as2-item.on, .as2-rail button.here) { border-left: 3px solid CanvasText; font-weight: 700; }
+  .dash :is(button, a, input, select, textarea):focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+  .dash :is(.mp-btn, .btn, .sp-btn, .ci-btn, .card, .po-card, .ov-toast, .md) { border: 1px solid CanvasText; }
+}
+/* print: always the light palette, chrome never reaches paper */
+@media print {
+  .dash { height: auto !important; overflow: visible !important; background: #fff !important; color: #000 !important; }
+  .dash .sidebar, .dash .topbar, .dash header.top, .dash .help, .dash .ov-toasts, .dash .ov-scrim, .dash .skip-link, .dash .no-print, .dash .theme-toggle { display: none !important; }
+  .dash .main, .dash .scroll { display: block !important; overflow: visible !important; height: auto !important; }
+  .dash * { box-shadow: none !important; text-shadow: none !important; }
+  .dash .card, .dash .po-card, .dash tr, .dash .print-break-avoid { break-inside: avoid; }
+  @page { margin: 16mm; }
+}
+.print-only { display: none; } @media print { .print-only { display: block; } }
+
+/* ===== Styled dropdown lists (Untitled UI menu x Arc softness) =====
+   Chromium's customizable select: every <select> keeps its native behaviour and keyboard support, but its list is drawn by us. */
+@supports (appearance: base-select) {
+  .dash.dash select, .dash.dash select:not(:has(+ svg)), .dash select::picker(select),
+  .dash :is(.sm-select, .sp-select, .mp-sel, .at-sel, .ck-view, .in-range, .wt-who) select { appearance: base-select; }
+  .dash.dash select { align-items: center; }
+  .dash select::picker-icon { display: none; } /* every select already draws its own chevron */
+  .dash select::picker(select) {
+    box-sizing: border-box; min-width: anchor-size(width); max-height: min(320px, 50vh); margin: 0; padding: 6px;
+    position-area: block-end span-inline-end; position-try-order: normal; position-try-fallbacks: flip-block; margin-block: 6px;
+    border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink);
+    box-shadow: 0 12px 16px -4px rgb(10 13 18 / 0.08), 0 4px 6px -2px rgb(10 13 18 / 0.03);
+    overflow-y: auto; scrollbar-width: thin; font: 400 14px/20px var(--font);
+  }
+  .dash.dark select::picker(select) { background: #2A2A2F; border-color: var(--line-strong); box-shadow: 0 12px 24px -4px rgb(0 0 0 / 0.5); }
+  .dash select option:not(.x) { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 10px; border-radius: 8px; background: none; color: var(--ink-2); font-weight: 500; cursor: pointer; }
+  .dash select option:not(.x):hover, .dash select option:not(.x):focus-visible { background: var(--tile); color: var(--ink); outline: none; }
+  .dash select option:not(.x):checked { background: var(--orange-bg); color: var(--orange-fg); font-weight: 600; }
+  .dash select option:not(.x)::checkmark { order: 1; margin-left: auto; color: var(--orange-solid); }
+  .dash select option:disabled { opacity: 0.5; cursor: not-allowed; }
+  .dash select optgroup { padding: 6px 10px 2px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+}
+/* date field button (the picker popup itself is the app's DatePicker) */
+.dash .lw-f .df, .dash .iv-row .df { width: 100%; justify-content: flex-start; height: 40px; }
+.dash .iv-row .df { height: 32px; }
+
+/* date field inside the Create dialog's field chips and in forms */
+.dash .ci-pill .df { height: 24px; padding: 0; border: 0; background: none; box-shadow: none; font: inherit; font-size: 13px; color: var(--ink-2); gap: 6px; }
+.dash .ci-pill .df svg { display: none; }
+.dash :is(.sh-form-f, .pr-field, .ov-field) .df { width: 100%; justify-content: flex-start; height: 40px; }
+
+/* Untitled UI "Pill color" (sm) for every status tag: h22, pad 2/8, Text xs Medium, 1px border, X-50 fill, X-700 text */
+.dash.dash :is(.po-pill, .po-stag, .po-role, .pol-pill) { display: inline-flex; align-items: center; gap: 6px; height: 22px; min-height: 22px; padding: 2px 8px; border: 1px solid #E5E5E5; font-size: 12px; line-height: 18px; font-weight: 500; background: #FAFAFA; color: #404040; }
+.dash.dash :is(.po-pill.ok, .po-stag.on, .po-role.green) { background: #F0FDF4; border-color: #BBF7D0; color: #15803D; }
+.dash.dash :is(.po-pill.warn, .po-role.amber) { background: #FEFCE8; border-color: #FEF08A; color: #A16207; }
+.dash.dash :is(.po-pill.err, .pol-pill.err, .po-role.red) { background: #FEF2F2; border-color: #FECACA; color: #B91C1C; }
+.dash.dash :is(.po-pill.info, .po-role.blue) { background: #EFF6FF; border-color: #BFDBFE; color: #1D4ED8; }
+.dash.dark.dark :is(.po-pill, .po-stag, .po-role, .pol-pill) { background: rgb(255 255 255 / 0.06); border-color: rgb(255 255 255 / 0.14); color: #D4D4D8; }
+.dash.dark.dark :is(.po-pill.ok, .po-stag.on, .po-role.green) { background: rgb(34 197 94 / 0.12); border-color: rgb(34 197 94 / 0.3); color: #86EFAC; }
+.dash.dark.dark :is(.po-pill.warn, .po-role.amber) { background: rgb(234 179 8 / 0.12); border-color: rgb(234 179 8 / 0.3); color: #FDE047; }
+.dash.dark.dark :is(.po-pill.err, .pol-pill.err, .po-role.red) { background: rgb(239 68 68 / 0.12); border-color: rgb(239 68 68 / 0.3); color: #FCA5A5; }
+.dash.dark.dark :is(.po-pill.info, .po-role.blue) { background: rgb(59 130 246 / 0.14); border-color: rgb(59 130 246 / 0.3); color: #93C5FD; }
+/* search boxes draw their focus ring once, on the box: the input inside never gets a second outline */
+.dash.dash.dash :is(.as2-search, .search, .fm-s, .mp-search, .pm-search, .po-search, .fy-search, .pn-q) input:focus,
+.dash.dash.dash :is(.as2-search, .search, .fm-s, .mp-search, .pm-search, .po-search, .fy-search, .pn-q) input:focus-visible { outline: none !important; box-shadow: none !important; }
+.dash.dash :is(.search, .fm-s, .mp-search, .pm-search, .po-search, .fy-search, .pn-q, .as2-search):focus-within { border-color: var(--ring); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ring) 18%, transparent); }
